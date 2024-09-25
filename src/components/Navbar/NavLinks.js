@@ -1,15 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const NavLinks = () => {
     return (
         <>
-            <div className="11" smooth to="/#about">
+            <Link className="11" >
                 Red2
-            </div>
-            <div className="22" smooth to="/#services">
+            </Link>
+            <div className="22">
                 Login
             </div>
-            <div className="33" smooth to="/#services">
+            <div className="33">
                 No User
             </div>
         </>

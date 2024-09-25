@@ -1,13 +1,21 @@
 import NavBar from '../components/Navbar/Navbar';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { userLoginAction } from '../actions/userActions';
+import Dashboard from '../components/Dashboard.js'; // Import the Dashboard component
+
 function Home() {
+
+    // const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    
     const [isLoggedIn, setIsLoggedIn] = useState(false); // 是否登录的状态
+
+
     const [error, setError] = useState(''); // 错误信息
     const [loading, setLoading] = useState(false); // 加载状态
 
@@ -22,8 +30,8 @@ function Home() {
         const fakeLogin = new Promise((resolve, reject) => {
           setTimeout(() => {
             // if (formData.get('username') === 'user' && formData.get('password') === 'pass') {
-              //resolve('success');
-              reject('Invalid credentials');
+              resolve('success');
+            //   reject('Invalid credentials');
             // } else {
             //   reject('Invalid credentials');
             // }
@@ -33,6 +41,9 @@ function Home() {
         try {
           await fakeLogin; // 如果登录成功
           setIsLoggedIn(true); // 设置登录状态为 true
+          console.log("We begin to dispatcd event email ", email);
+          dispatch(userLoginAction({"useremail": email, "nickname": 'rockzhang'}));
+
           setError('');
         } catch (err) {
           setError(err); // 如果登录失败，显示错误信息
@@ -46,7 +57,7 @@ function Home() {
         return (
         <>
             <NavBar/>
-            <h1>Welcome to the dashboard!</h1>
+            <Dashboard />
         </>
         );
       } else {
@@ -90,6 +101,7 @@ function Home() {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
+                                        autoComplete="on"
                                     />
                                 </div>
                                 {error && <div className="alert alert-danger">{error}</div>}
