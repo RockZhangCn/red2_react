@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import React from 'react'; 
-
+import Table from './Table';
 
 function Dashboard () {
     const user = useSelector(state => state.user);
@@ -11,9 +10,18 @@ function Dashboard () {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <p>Welcome, {user.nickName}!</p>
+        <div style={{ display: 'flex', backgroundColor: 'gray', padding: '20px', flexWrap: 'wrap',
+        justifyContent: 'flex-start', alignItems: 'flex-start', }}>
+            <Table tableIdx={1}/> 
+            <Table tableIdx={2}/>
+            <Table/>
+            <Table/>
+            <Table/>
+            <Table/>
+            <Table/>
+            <Table/>
+            <Table/>
+   
         </div>
     );
 

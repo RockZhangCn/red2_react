@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Hall from './pages/Hall';
-import Table from './pages/Table';
+import Table from './components/Table.js';
 import Setting from './pages/Setting';
 import ResetPassword from './pages/ResetPassword.js';
 import NotFound from './pages/NotFound.js';
