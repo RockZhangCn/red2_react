@@ -3,6 +3,7 @@ function SeatedUser({avatar, nickname}) {
         <div style={{ textAlign: 'center', backgroundColor: 'transparent', padding:'1px', borderRadius: '5px', width: '100%', height: '100%' }}>
         <img 
             src={avatar}
+            title={nickname}
             style={{ 
                 borderRadius: '50%', 
                 width: '100%', // Adjust size as needed

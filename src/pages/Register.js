@@ -8,6 +8,9 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [nickname, setNickname] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [avatar, setAvatar] = useState('');
+
+    const avatars = Array.from({ length: 24 }, (_, i) => `/avatar/icon_${i + 1}.png`);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,6 +22,10 @@ function Register() {
         console.log('Registration submitted', { email, password, confirmPassword, nickname });
     };
 
+    function onAvatarSelect(event) {
+        
+    }
+
     return (
         <>
             <NavBar />
@@ -27,6 +34,7 @@ function Register() {
                     <div className="col-md-6">
                         <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
                             <h2 className="text-center mb-4">Register</h2>
+                            
                             <div className="mb-3">
                                 <label htmlFor="nickname" className="form-label">Nickname (for in-game display)</label>
                                 <input
@@ -80,6 +88,22 @@ function Register() {
                                     required
                                 />
                                 {passwordError && <div className="text-danger">{passwordError}</div>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="avatar" className="form-label">Select Avatar</label>
+                                <div className="mt-2">
+                                    {avatars.map((avatarPath) => (
+                                        <img 
+                                            key={avatarPath} 
+                                            src={avatarPath} 
+                                            onClick={() => setAvatar(avatarPath)} // Update to set the selected avatar
+                                            style={{ margin: '2px', display: 'inline', width: '50px', height: '50px', cursor: 'pointer',
+                                                border: `${avatar == avatarPath ? 2 : 0}px solid blue`,
+                                             }} 
+                                            alt={`Avatar ${avatarPath.split('_')[1].split('.')[0]}`} 
+                                        />
+                                    ))}
+                                </div>
                             </div>
                             
                             <div className="d-grid gap-2">
