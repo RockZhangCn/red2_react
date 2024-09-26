@@ -13,8 +13,8 @@ function Home() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // 是否登录的状态
-
+   
+    const user = useSelector(state => state.user);
 
     const [error, setError] = useState(''); // 错误信息
     const [loading, setLoading] = useState(false); // 加载状态
@@ -40,9 +40,9 @@ function Home() {
     
         try {
           await fakeLogin; // 如果登录成功
-          setIsLoggedIn(true); // 设置登录状态为 true
+         
           console.log("We begin to dispatcd event email ", email);
-          dispatch(userLoginAction({"useremail": email, "nickname": 'rockzhang'}));
+          dispatch(userLoginAction({"useremail": email, "nickname": 'rockzhang', "avatar":"/avatar/icon_7.png"}));
 
           setError('');
         } catch (err) {
@@ -53,7 +53,7 @@ function Home() {
       };
     
       // 如果已登录，显示登录成功后的页面
-      if (isLoggedIn) {
+      if (user.isLoggedIn) {
         return (
         <>
             <NavBar/>

@@ -1,6 +1,6 @@
 
 
-function Hall() {
+function GameBoard() {
     return (
         <div>
             <h1>Hall</h1>
@@ -8,4 +8,4 @@ function Hall() {
     );
 }
 
-export default Hall;
+export default GameBoard;

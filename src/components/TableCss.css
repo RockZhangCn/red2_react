@@ -18,6 +18,8 @@
   .small {
     background-color: lightgray; /* 其他小单元的背景色 */
     margin: 20%;
+    
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4); /* 减少阴影 */
   }
   
   .large {
@@ -31,3 +33,9 @@
     visibility: hidden; /* 隐藏四个角的单元 */
   }
   
+.clicked {
+    /* transform: scale(0.85); 
+    transition: transform 0.15s; 
+    box-shadow: 0 8px 15px rgba(120, 49, 49, 0.3);  */
+    background-color: blueviolet;
+}

@@ -29,11 +29,15 @@ const initialState = {
   };
   
   const gameReducer = (state = initialState, action) => {
+    console.log("gameReducer received action " + action);
+    var result = null;
     switch (action.type) {
       case 'INCREMENT_SCORE':
         return { ...state, score: state.score + action.payload };
-      case 'LEVEL_UP':
-        return { ...state, level: state.level + 1 };
+      case 'TAKEASEAT':
+        result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
+        console.log("gameReducer new state ", result);
+        return result;
       case 'GAME_OVER':
         return { ...state, isGameOver: true };
       default:

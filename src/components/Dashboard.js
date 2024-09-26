@@ -10,47 +10,58 @@ function Dashboard () {
     //
     const mockData = [
         {
-            "tableIdx":0,
-            "user1":{"avatar":"/avatar/icon_1.png", "nickname":"user1"},
-            "user2":{"avatar":"/avatar/icon_4.png", "nickname":"user2"},
-            "user3":{"avatar":"/avatar/icon_14.png", "nickname":"user3"},
-            "user4":{"avatar":"/avatar/icon_24.png", "nickname":"user4"},
+            "tableIdx":1,
+            tableUsers: [
+                {pos:1, "avatar":"/avatar/icon_1.png", "nickname":"user1"},
+                {pos:2, "avatar":"/avatar/icon_4.png", "nickname":"user2"},
+                {pos:3, "avatar":"/avatar/icon_14.png", "nickname":"user3"},
+                {pos:4, "avatar":"/avatar/icon_24.png", "nickname":"user4"},
+            ],
         },
         {     
-            "tableIdx":1,       
-            "user1":{"avatar":"/avatar/icon_5.png", "nickname":"user1"},
-            "user2":{"avatar":"/avatar/icon_19.png", "nickname":"user2"},
-            "user3":{"avatar":"/avatar/icon_9.png", "nickname":"user3"},
-            "user4":{"avatar":"/avatar/icon_4.png", "nickname":"user4"},
-        },
-        {
-            "tableIdx":2,
-            "user1":{"avatar":"/avatar/icon_13.png", "nickname":"user1"},
-            "user2":{"avatar":"/avatar/icon_6.png", "nickname":"user2"},
-            "user3":null,
-            "user4":{"avatar":"/avatar/icon_22.png", "nickname":"user4"},
+            "tableIdx":2, 
+            tableUsers: [      
+            {pos:1, "avatar":"/avatar/icon_5.png", "nickname":"user1"},
+            {pos:2, "avatar":"/avatar/icon_19.png", "nickname":"user2"},
+            {pos:3, "avatar":"/avatar/icon_9.png", "nickname":"user3"},
+            {pos:4, "avatar":"/avatar/icon_4.png", "nickname":"user4"},
+            ]
         },
         {
             "tableIdx":3,
-            "user1":null,
-            "user2":null,
-            "user3":null,
-            "user4":null,
+            tableUsers: [
+                {pos:1, "avatar":"/avatar/icon_13.png", "nickname":"user1"},
+                {pos:2, "avatar":"/avatar/icon_6.png", "nickname":"user2"},
+                {pos:4, "avatar":"/avatar/icon_22.png", "nickname":"user4"},
+            ],
         },
         {
             "tableIdx":4,
-            "user1":null,
-            "user2":{"avatar":"/avatar/icon_7.png", "nickname":"user2"},
-            "user3":null,
-            "user4":null,
+            tableUsers: [
+            ],
         },
         {
             "tableIdx":5,
-            "user1":null,
-            "user2":null,
-            "user3":null,
-            "user4":null,
+            tableUsers: [
+                {pos:2, "avatar":"/avatar/icon_7.png", "nickname":"user2"},
+            ],
         },
+        {
+            "tableIdx":6,
+            tableUsers: [
+            ],
+        },
+        {
+            "tableIdx":7,
+            tableUsers: [
+            ],
+        },
+        {
+            "tableIdx":8,
+            tableUsers: [
+            ],
+        },
+
     ];
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
@@ -98,7 +109,7 @@ function Dashboard () {
   
     useEffect(() => {
       //connectWebSocket();
-  
+
       return () => {
         if (websocketRef.current) {
           websocketRef.current.close();
@@ -106,13 +117,11 @@ function Dashboard () {
       };
     }, []);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     return (
         <div style={{ display: 'flex', backgroundColor: 'gray', padding: '20px', flexWrap: 'wrap',
         justifyContent: 'flex-start', alignItems: 'flex-start', }}>
             {mockData.map(item => (
-                <Table tableIdx={item.tableIdx} users={item}/> 
+                <Table key={item.tableIdx} tableIdx={item.tableIdx} users={item.tableUsers}/> 
             ))}   
         </div>
     );
