@@ -1,10 +1,9 @@
 import NavBar from '../components/Navbar/Navbar.js';
 
-function NotFound() {
+function NotFound(width, height) {
     return (
     <>
-        <NavBar/>
-        <h1>Page Not Found!</h1>
+        <img src='/card/poker_0.png' style={{width:width, height:height}}/>
     </>
     );
 }

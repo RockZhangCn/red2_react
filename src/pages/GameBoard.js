@@ -3,7 +3,7 @@ import PlayerUser from "../components/PlayerUser.js"
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { restoreGameHallDataAction } from "../actions/gameActions.js";
+import Card from "../components/Card.js"
 
 function GameBoard() {
     const { tableId } = useParams();
@@ -37,6 +37,13 @@ function GameBoard() {
         <div className="gameboard">
             <div className="left">
                 {leftUser && <PlayerUser avatar={leftUser.avatar} nickname={leftUser.nickname}/> }
+                <Card width='12vw' value='5' />
+                <Card width='12vw' value='9' />
+                <Card width='12vw' value='9' />
+                <Card width='12vw' value='9' />
+                <Card width='12vw' value='9' />
+                <Card width='12vw' value='9' />
+                <Card width='12vw' value='9' />
             </div>
             <div className="middle">
                 <div className="top"> 

@@ -40,7 +40,6 @@ function App() {
       <Route path="/register" element={<Register/>} />
       <Route path="/resetpassword" element={<ResetPassword/>} />
       <Route path="/playing/:tableId" element={<GameBoard />} />
-      <Route path="/table" element={<Table />} />
       <Route path="/setting" element={<Setting />} />
       
       {/* Default route */}

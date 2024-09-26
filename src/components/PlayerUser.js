@@ -2,7 +2,7 @@
 function PlayerUser({avatar, nickname}) {
 
     return (
-    <div style={{ textAlign: 'center', backgroundColor: 'transparent', padding:'1px', borderRadius: '5px', width: '100%', height: '100%' }}>
+    <div style={{ textAlign: 'center', backgroundColor: 'transparent', padding:'auto', borderRadius: '5px', width: '100%', height: '100%' }}>
         <img 
             src={avatar}
             title={nickname}

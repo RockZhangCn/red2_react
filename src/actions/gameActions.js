@@ -7,7 +7,6 @@ export const selectAPosAction = (composedPos) => {
     }
 }
 
-
 export const gameHallRTDataAction = (data) => {
     return {
         type: 'GAMEHALL_RT_DATA',

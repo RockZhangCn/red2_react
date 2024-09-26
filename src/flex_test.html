@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Board</title>
+    
+   
+    
+    <style>
+        /* src/pages/GameBoard.css */
+        /* body {
+            margin: 0;
+            padding: 0;
+        } */
+
+.gameboard {
+    display: flex;
+    margin: 0;
+    padding: 5px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffbbcc;
+}
+
+.left {
+    padding: 2vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    
+    background-color: #f0f0f0;
+}
+
+.middle {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: #f28181;
+}
+
+.center {
+    display: flex;
+    flex: 3;
+    background-color: #d0d0d0;
+}
+
+.bottom {
+    display: flex;
+    flex: 2;
+    background-color: #c0c0c0;
+}
+
+.right {
+    padding: 2vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="gameboard"> <!-- Changed className to class -->
+        <div class="left">
+            <p>This is title</p>
+            <img src='http://rockzhang.com/1.jpeg' style="width:80px; height:80px;" />
+            <img src='http://rockzhang.com/1.jpeg' style="width:80px; height:80px;" />
+            <img src='http://rockzhang.com/1.jpeg' style="width:80px; height:80px;" />
+            <img src='http://rockzhang.com/1.jpeg' style="width:80px; height:80px;" />
+            <img src='http://rockzhang.com/1.jpeg' style="width:80px; height:80px;" />
+        </div>
+        <div class="middle">
+            <div class="top"></div>
+            <div class="center"></div>
+            <div class="bottom"></div>
+        </div>
+        <div class="right"></div>
+    </div>
+   
+</body>
+</html>
