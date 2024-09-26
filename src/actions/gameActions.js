@@ -14,3 +14,10 @@ export const gameHallRTDataAction = (data) => {
         data: data,
     }
 }
+
+export const restoreGameHallDataAction = (data) => {
+    return {
+        type: 'RESTORE_GAMEHALL_DATA',
+        data: data,
+    }
+}

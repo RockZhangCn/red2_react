@@ -1,5 +1,3 @@
-import { wait } from "@testing-library/user-event/dist/utils";
-
 // src/reducers/gameReducer.js
 const GAME_STATUS = {
     WAITINGUSERS: 0,
@@ -26,7 +24,7 @@ const initialState = {
     tablePos: -1,
     otherPlayers: null,
     userStatus: USER_STATUS.LOGOUT,
-    gamehall: null,
+    gamehall: [],
   };
   
   const gameReducer = (state = initialState, action) => {
@@ -35,17 +33,26 @@ const initialState = {
     switch (action.type) {
       case 'INCREMENT_SCORE':
         return { ...state, score: state.score + action.payload };
-      case 'TAKEASEAT':
+      
+        case 'TAKEASEAT':
         result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
         console.log("gameReducer new state ", result);
         return result;
       
       case 'GAMEHALL_RT_DATA':
-        console.log("gameReducer received GAMEHALL_RT_DATA action", action.data);
-        return {...state, gamehall:action.data};
+        console.log("AAAAA gameReducer received GAMEHALL_RT_DATA action", action.data);
+        result =  {...state, gamehall:action.data};
+        localStorage.setItem('gamehall', JSON.stringify(result)); // 存储登录态
+        return result;
+      
+      case 'RESTORE_GAMEHALL_DATA':
+        console.log("AAAAA we finally restore gamehall data", action);
+        return { ...state, gamehall: action.data,};
+
       case 'GAME_OVER':
         return { ...state, isGameOver: true };
-      default:
+      
+        default:
         return state;
     }
   };

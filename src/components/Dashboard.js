@@ -108,6 +108,7 @@ function Dashboard () {
   
     useEffect(() => {
       //connectWebSocket();
+      //TODO move it to websocket received message.
       dispatch(gameHallRTDataAction(mockData));
 
       return () => {

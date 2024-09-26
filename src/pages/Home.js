@@ -7,8 +7,6 @@ import { userLoginAction } from '../actions/userActions';
 import Dashboard from '../components/Dashboard.js'; // Import the Dashboard component
 
 function Home() {
-
-    // const user = useSelector(state => state.user);
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');

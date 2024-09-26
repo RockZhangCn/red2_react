@@ -12,17 +12,25 @@ import GameBoard from './pages/GameBoard.js';
 import { useDispatch,  } from 'react-redux';
 import { useEffect,  } from 'react';
 import { restoreUserStateAction } from './actions/userActions.js';
+import { restoreGameHallDataAction } from './actions/gameActions.js';
 
 
 function App() {
 
   const dispatch = useDispatch();
-
+  console.log("AAAAA app begin to render");
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       dispatch(restoreUserStateAction(JSON.parse(savedUser))); // 恢复 Redux 状态
     }
+
+    const gameHall = localStorage.getItem('gamehall');
+    console.log("AAAAA app to restore gamehall", gameHall)
+    if (gameHall) {
+      dispatch(restoreGameHallDataAction(JSON.parse(gameHall)));
+    }
+   
   }, [dispatch]);
 
   return (

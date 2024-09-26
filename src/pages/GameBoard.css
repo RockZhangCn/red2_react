@@ -2,17 +2,18 @@
 .gameboard {
     display: flex;
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     height: 100vh;
     width: 100vw;
     background-color: #ffbbcc;
 }
 
 .left {
+    padding: 2vh;
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 4px;
+    
     background-color: #f0f0f0;
 }
 
@@ -23,25 +24,27 @@
 }
 
 .top {
-    flex: 1;
+    flex: 2;
     display: flex;
-
-    background-color: #e0e0e0;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: #f28181;
 }
 
 .center {
     display: flex;
-    flex: 2;
+    flex: 3;
     background-color: #d0d0d0;
 }
 
 .bottom {
     display: flex;
-    flex: 1;
+    flex: 2;
     background-color: #c0c0c0;
 }
 
 .right {
+    padding: 2vh;
     flex: 1;
     display: flex;
     flex-direction: column;
