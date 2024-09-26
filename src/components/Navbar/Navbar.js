@@ -19,8 +19,6 @@ const NavBar = () => {
             <NavLinks/>
         </nav>
     )
-
 }
-
 
 export default NavBar;

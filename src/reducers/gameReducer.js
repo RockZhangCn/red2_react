@@ -26,6 +26,7 @@ const initialState = {
     tablePos: -1,
     otherPlayers: null,
     userStatus: USER_STATUS.LOGOUT,
+    gamehall: null,
   };
   
   const gameReducer = (state = initialState, action) => {
@@ -38,6 +39,10 @@ const initialState = {
         result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
         console.log("gameReducer new state ", result);
         return result;
+      
+      case 'GAMEHALL_RT_DATA':
+        console.log("gameReducer received GAMEHALL_RT_DATA action", action.data);
+        return {...state, gamehall:action.data};
       case 'GAME_OVER':
         return { ...state, isGameOver: true };
       default:

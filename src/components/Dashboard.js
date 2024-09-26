@@ -1,13 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Table from './Table';
 import React, { useRef, useEffect, useState } from 'react';
-
+import { gameHallRTDataAction } from '../actions/gameActions';
 
 function Dashboard () {
-
-    const TABLE_COUNT = 6;
-    const url = "http://rockzhang.com/1.jpeg";
-    //
     const mockData = [
         {
             "tableIdx":1,
@@ -63,10 +59,13 @@ function Dashboard () {
         },
 
     ];
-    const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
 
-    const [messages, setMessages] = useState([]);
+    const dispatch = useDispatch();
+    
+    //dispatch(gameHallRTDataAction(mockData));
+
+    const user = useSelector(state => state.user);
+    
     const [connected, setConnected] = useState(false);
     const websocketRef = useRef(null);
     const reconnectInterval = useRef(1000); // Start with 1 second
@@ -83,7 +82,7 @@ function Dashboard () {
   
       websocketRef.current.onmessage = (event) => {
         const newMessage = event.data;
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        dispatch(gameHallRTDataAction(newMessage));
       };
   
       websocketRef.current.onclose = () => {
@@ -109,6 +108,7 @@ function Dashboard () {
   
     useEffect(() => {
       //connectWebSocket();
+      dispatch(gameHallRTDataAction(mockData));
 
       return () => {
         if (websocketRef.current) {
@@ -125,7 +125,6 @@ function Dashboard () {
             ))}   
         </div>
     );
-
 };
 
 export default Dashboard;

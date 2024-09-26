@@ -1,0 +1,49 @@
+/* src/pages/GameBoard.css */
+.gameboard {
+    display: flex;
+    margin: 0;
+    padding: 10px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffbbcc;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 4px;
+    background-color: #f0f0f0;
+}
+
+.middle {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    flex: 1;
+    display: flex;
+
+    background-color: #e0e0e0;
+}
+
+.center {
+    display: flex;
+    flex: 2;
+    background-color: #d0d0d0;
+}
+
+.bottom {
+    display: flex;
+    flex: 1;
+    background-color: #c0c0c0;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+}

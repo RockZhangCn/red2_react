@@ -1,4 +1,4 @@
-import SeatedUser from "../pages/SeatedUser";
+import SeatedUser from "../components/SeatedUser";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react"; // Add useState import
 import "./TableCss.css"
@@ -14,7 +14,7 @@ function Table({ tableIdx, users }) { // Removed key from props
     function SelectASeat(seatPos) {
         console.log("we Select seat ", tableIdx * 10 + seatPos);
         dispatch(selectAPosAction(tableIdx * 10 + seatPos));
-        navigate('/playing');
+        navigate('/playing/' + tableIdx);
     }
 
     const seatThisTable = (game.tableId === tableIdx);
