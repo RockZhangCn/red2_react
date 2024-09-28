@@ -1,48 +1,63 @@
+
 /* src/pages/GameBoard.css */
+
+html, body {
+    height: 100%; /* 设置 html 和 body 元素占据整个视口高度 */
+    margin: 0;
+    overflow: hidden; /* 禁用整个页面的滚动 */
+  }
+
 .gameboard {
     display: flex;
     margin: 0;
-    padding: 5px;
+    padding: 0px;
     height: 100vh;
     width: 100vw;
-    background-color: #ffbbcc;
 }
 
-.left {
-    padding: 2vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    flex: 1;
-    
-    background-color: #f0f0f0;
-}
-
+/* Big middle. */
 .middle {
     flex: 2;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .top {
-    flex: 2;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    background-color: #f28181;
+    flex-direction: column;
+    flex: 3;
+    justify-content: center;
+    background-color: #eaf7f3;
+    max-height: 30vh;
 }
 
 .center {
     display: flex;
-    flex: 3;
+    flex: 4;
+    justify-content: center;
+    align-items: center;
     background-color: #d0d0d0;
+    max-height: 40vh;
 }
 
 .bottom {
     display: flex;
-    flex: 2;
+    flex-direction: column;
+    flex: 3;
+    justify-content: flex-start;
     background-color: #c0c0c0;
+    max-height: 30vh; 
+}
+
+.left {
+    padding: 2vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f0f0f0;
 }
 
 .right {
@@ -50,5 +65,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     background-color: #f0f0f0;
 }

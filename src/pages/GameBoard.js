@@ -3,7 +3,8 @@ import PlayerUser from "../components/PlayerUser.js"
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import Card from "../components/Card.js"
+import InfoBoard from "../components/InfoBoard.js"
+import CardBox from "../components/CardBox.js"
 
 function GameBoard() {
     const { tableId } = useParams();
@@ -36,28 +37,29 @@ function GameBoard() {
     return (
         <div className="gameboard">
             <div className="left">
-                {leftUser && <PlayerUser avatar={leftUser.avatar} nickname={leftUser.nickname}/> }
-                <Card width='12vw' value='5' />
-                <Card width='12vw' value='9' />
-                <Card width='12vw' value='9' />
-                <Card width='12vw' value='9' />
-                <Card width='12vw' value='9' />
-                <Card width='12vw' value='9' />
-                <Card width='12vw' value='9' />
+                    {leftUser && <PlayerUser avatar={leftUser.avatar} nickname={leftUser.nickname} horizontal={false}/> }
+                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='40%' horizontal={false} hide={true} />
+                    <InfoBoard value="Zhang Shou Nian"/>
             </div>
             <div className="middle">
                 <div className="top"> 
-                    {topUser && <PlayerUser avatar={topUser.avatar} nickname={topUser.nickname}/> } 
+                    {topUser && <PlayerUser avatar={topUser.avatar} nickname={topUser.nickname} horizontal={true}/> } 
+                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]}  long='80%' hide={true} horizontal={true}  />
                 </div>
-                <div className="center"></div>
+                <div className="center">
+                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='1000%' horizontal={true}/>
+                </div>
 
                 <div className="bottom">
-                    {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname}/> } 
+                    {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> }
+                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='100%' horizontal={true}/> 
                 </div>
             </div>
 
             <div className="right">
-                {rightUser && <PlayerUser avatar={rightUser.avatar} nickname={rightUser.nickname}/> }
+                {rightUser && <PlayerUser avatar={rightUser.avatar} nickname={rightUser.nickname} horizontal={false}/> }
+                <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='40%' horizontal={false} hide={true} />
+                <InfoBoard value="Zhang Shou Nian"/>
             </div>
         </div>
     );
