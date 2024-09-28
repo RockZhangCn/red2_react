@@ -55,7 +55,7 @@ function GameBoard() {
                 <div className="bottom">
                     {/* {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> } */}
                     <CommandBoard/>  
-                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='80%' horizontal={true}/> 
+                    <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='50%' horizontal={true}/> 
                   
                 </div>
             </div>
