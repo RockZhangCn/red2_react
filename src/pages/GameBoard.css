@@ -18,6 +18,8 @@ html, body {
 /* Big middle. */
 .middle {
     flex: 2;
+    flex-grow:2;
+    flex-shrink: 2;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -34,25 +36,28 @@ html, body {
 
 .center {
     display: flex;
-    flex: 4;
+    flex: 3;
     justify-content: center;
     align-items: center;
     background-color: #d0d0d0;
-    max-height: 40vh;
+    max-height: 30vh;
 }
 
 .bottom {
     display: flex;
     flex-direction: column;
-    flex: 3;
+    flex: 4;
     justify-content: flex-start;
     background-color: #c0c0c0;
-    max-height: 30vh; 
+    max-height: 40vh; 
 }
 
 .left {
+
     padding: 2vh;
     flex: 1;
+    flex-grow:1;
+    flex-shrink: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -61,8 +66,11 @@ html, body {
 }
 
 .right {
+
     padding: 2vh;
     flex: 1;
+    flex-grow:1;
+    flex-shrink: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
