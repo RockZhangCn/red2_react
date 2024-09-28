@@ -1,12 +1,8 @@
 import Card from "./Card"
 import {useState} from 'react'
 
-
-function CardBox({valueList, long, horizontal, hide}) {
-
-    // const [currentSet, setCurrentSet] = usetState([]);
+function CardBox({valueList, long, horizontal, hide, selectable}) {
     const [selectedSet, setSelectedSet] = useState([]);
-
 
     function onCardClicked(selected, cardValue) {
         setSelectedSet(prevSelectedSet => {
@@ -28,7 +24,7 @@ function CardBox({valueList, long, horizontal, hide}) {
             {
                 valueList.map((item, index) => 
                     <Card value={hide?55:item} long={long} key={index} onClick={onCardClicked}
-                 horizontal={horizontal} isLast={index === valueList.length - 1}/>
+                 horizontal={horizontal} isLast={index === valueList.length - 1} selectable={selectable}/>
                 )
             }
             </div>

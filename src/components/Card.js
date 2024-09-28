@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-function Card({value, long, horizontal, isLast, onClick}) {
+function Card({value, long, horizontal, isLast, onClick, selectable}) {
 
     const [selected, setSelected] = useState(false);
 
@@ -16,12 +16,12 @@ function Card({value, long, horizontal, isLast, onClick}) {
 
     if (horizontal) {
         // Check if it's the last image
-        const style = isLast ? { transform:selected&&value!=55?'translateY(-20px)':'translateY(0px)',  height: 'auto', width: 'auto', transition: 'transform 0.3s ease' } : 
-        { transform:selected&&value!=55?'translateY(-20px)':'translateY(0px)', overflow: 'hidden', height: '100%', textAlign: "center", width: '30px', transition: 'transform 0.3s ease'};
+        const style = isLast ? { transform:selected&&value!==55?'translateY(-20px)':'translateY(0px)',  height: 'auto', width: 'auto', transition: 'transform 0.3s ease' } : 
+        { transform:selected&&value!==55?'translateY(-20px)':'translateY(0px)', overflow: 'hidden', height: '100%', textAlign: "center", width: '30px', transition: 'transform 0.3s ease'};
         return (
             <div style={style}>
-                <img className={"clickableimage"} src={'/card/poker_' + value + '.png'} 
-                onClick={()=>{ adjustThePostOfPicture(value); }}
+                <img className={"clickableimage"} alt={'/card/poker_' + value + '.png'} src={'/card/poker_' + value + '.png'} 
+                onClick={()=>{ if (selectable) adjustThePostOfPicture(value); }}
                 style={{ height: '100%', marginTop: 'auto', marginBottom: 'auto', width: 'auto' }} />
             </div>
         );
@@ -30,7 +30,7 @@ function Card({value, long, horizontal, isLast, onClick}) {
         const style = isLast ? { overflow: 'hidden', textAlign: "center", height: 'auto' } : { overflow: 'hidden', textAlign: "center", height: '30px' };
         return (
             <div style={style}>
-                <img src={'/card/poker_' + value + '.png'} 
+                <img src={'/card/poker_' + value + '.png'} alt={'/card/poker_' + value + '.png'}
                 style={{width: long, marginLeft:'auto', marginRight:'auto', height: 'auto'}}/>
             </div>
         );
