@@ -1,15 +1,13 @@
-
 function PlayerUser({avatar, nickname, horizontal}) {
 
     return (
-    <div style={{textAlign: 'center', backgroundColor: 'transparent', padding:'auto', width: '100%', height: '20%' }}>
+    <div style={{display:'flex', flexDirection: horizontal?'row':'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '20%' }}>
         <img 
             src={avatar}
             title={nickname}
             style={{ 
                 display: horizontal?'inline':'block',
-                marginLeft: 'auto',
-                marginRight:'auto',
+                margin: '0', // Adjust margin for horizontal alignment
                 borderRadius: '50%', 
                 width: 'auto', // Adjust size as needed
                 height: '100%', // Adjust size as needed
@@ -17,7 +15,7 @@ function PlayerUser({avatar, nickname, horizontal}) {
                 maxWidth: '7vh'
             }} 
         />
-        <p style={{display: horizontal?'inline':'block', marginLeft: 'auto',marginRight:'auto', 
+        <p style={{display: horizontal?'inline':'block', margin:'0', // Set margin to 0 for horizontal alignment
             maxWidth: '100%', maxHeight: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nickname}</p>
     </div>
     );

@@ -10,7 +10,7 @@ function Card({value, long, horizontal, isLast}) {
         );
     } else {
         // Adjust height for the last image
-        const style = isLast ? { overflow: 'hidden', textAlign: "center", height: 'auto' } : { overflow: 'hidden', textAlign: "center", height: '40px' };
+        const style = isLast ? { overflow: 'hidden', textAlign: "center", height: 'auto' } : { overflow: 'hidden', textAlign: "center", height: '30px' };
         return (
             <div style={style}>
                 <img src={'/card/poker_' + value + '.png'} 
