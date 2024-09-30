@@ -6,7 +6,7 @@ import './Navbar.css';
 const NavBar = ( {title}) => {
     const [top, setTop] = useState(!window.scrollY);
     const user = useSelector(state => state.user);
-    console.log("NavLinks avatar is ", user.avatar);
+    // console.log("NavLinks avatar is ", user.avatar);
 
     useEffect(() => {
         const scrollHandler = () => {

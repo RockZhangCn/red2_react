@@ -42,7 +42,7 @@ const initialState = {
       case 'GAMEHALL_RT_DATA':
         console.log("AAAAA gameReducer received GAMEHALL_RT_DATA action", action.data);
         result =  {...state, gamehall:action.data};
-        localStorage.setItem('gamehall', JSON.stringify(result)); // 存储登录态
+        localStorage.setItem('gamehall', JSON.stringify(result)); // store the mocked court data.
         return result;
       
       case 'RESTORE_GAMEHALL_DATA':

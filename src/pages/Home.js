@@ -2,6 +2,7 @@ import NavBar from '../components/Navbar/Navbar';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Import Axios
 
 import { userLoginAction } from '../actions/userActions';
 import Dashboard from '../components/Dashboard.js'; // Import the Dashboard component
@@ -20,48 +21,40 @@ function Home() {
     const handleSubmit = async (event) => {
         event.preventDefault(); // 阻止默认表单提交行为
         setLoading(true); // 开始加载
-        console.log("We have submitted the form");
-        console.log(email, password);
-        const formData = new FormData(event.target); // 获取表单数据
-    
-        // 模拟后端验证（实际应替换为 API 请求）
-        const fakeLogin = new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // if (formData.get('username') === 'user' && formData.get('password') === 'pass') {
-              resolve('success');
-            //   reject('Invalid credentials');
-            // } else {
-            //   reject('Invalid credentials');
-            // }
-          }, 1000);
-        });
-    
+        
         try {
-          await fakeLogin; // 如果登录成功
-         
-          console.log("We begin to dispatcd event email ", email);
-          dispatch(userLoginAction({"useremail": email, "nickname": 'rockzhang', "avatar":"/avatar/icon_7.png"}));
+            const response = await axios.post('http://localhost:5256/login', {
+                email,
+                password
+            }); // Send POST request with email and password
 
-          setError('');
+            console.log("We begin to dispatch event email ", email);
+            dispatch(userLoginAction({
+                "useremail": response.data.email, // Adjust based on your API response
+                "nickname": response.data.nickname, // Adjust based on your API response
+                "avatar": response.data.avatar // Adjust based on your API response
+            }));
+
+            setError('');
         } catch (err) {
-          setError(err); // 如果登录失败，显示错误信息
+            setError(err.response ? err.response.data.message : 'Login failed'); // Handle error
         } finally {
-          setLoading(false); // 结束加载
+            setLoading(false); // 结束加载
         }
-      };
+    };
     
-      // 如果已登录，显示登录成功后的页面
-      if (user.isLoggedIn) {
+    // 如果已登录，显示登录成功后的页面
+    if (user.isLoggedIn) {
         return (
         <>
-            <NavBar/>
+            <NavBar title="Welcome"/>
             <Dashboard />
         </>
         );
-      } else {
+    } else {
         return (
             <>
-                <NavBar />
+                <NavBar title="Please Login"/>
                 <div className="container">
                     <div className="row justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
                         <div className="col-md-6">
@@ -115,7 +108,7 @@ function Home() {
                 </div>
             </>
         );
-      }
+    }
 }
 
 export default Home;

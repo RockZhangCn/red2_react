@@ -11,9 +11,11 @@ function GameBoard() {
     // const dispatch = useDispatch();
 
     var gameData = useSelector(state => state.game);
-    console.log("AAAAA GameBoard we have data", gameData.gamehall);
+    var user = useSelector(state => state.user);
+    console.log("AAAA GameBoard we have user", user);
+    console.log("AAAAA GameBoard we have data", gameData.gamehall, "tableId", tableId);
 
-    const tableData = gameData.gamehall.find(item => item.tableIdx === tableId);
+    const tableData = gameData.gamehall.find(item => (item.tableIdx === Number(tableId)));
     console.log("GameBoard we into table", tableData);
 
     // stop refresh the page.

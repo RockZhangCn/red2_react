@@ -20,13 +20,15 @@ function Register() {
             return;
         }
         try {
+            console.log("We begin to register user", email, " password", password, "nickname", nickname,
+                "avatar", avatar);
             const response = await axios.post('http://localhost:5256/register', {
                 email,
                 password,
                 nickname,
                 avatar,
             });
-            console.log('Registration successful', response.data);
+            console.log('Registration successful, client received', response.data);
             // Handle successful registration (e.g., redirect or show a success message)
         } catch (error) {
             console.error('Registration failed', error);
