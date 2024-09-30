@@ -21,8 +21,12 @@ const userReducer = (state = initialState, action) => {
             return { ...state, isLoggedIn: action.isLoggedIn, 
                 avatar:action.avatar,
                 userEmail: action.userEmail, nickName: action.nickName };
-        case 'LOGOUT':
-            return { ...state, isLoggedIn: false, userEmail: null, nickName: null };
+        
+        case 'LOGOUT_USER':
+            console.log("we are going to logout user", action);
+            localStorage.setItem('user', null); // 存储登录态
+            return { ...state, isLoggedIn: false, userEmail: null, nickName: null, avatar:null};
+
         default:
         return state;
     }

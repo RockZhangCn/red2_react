@@ -21,7 +21,7 @@ function Home() {
     const handleSubmit = async (event) => {
         event.preventDefault(); // 阻止默认表单提交行为
         setLoading(true); // 开始加载
-        
+
         try {
             const response = await axios.post('http://localhost:5256/login', {
                 email,
@@ -29,13 +29,17 @@ function Home() {
             }); // Send POST request with email and password
 
             console.log("We begin to dispatch event email ", email);
-            dispatch(userLoginAction({
-                "useremail": response.data.email, // Adjust based on your API response
-                "nickname": response.data.nickname, // Adjust based on your API response
-                "avatar": response.data.avatar // Adjust based on your API response
-            }));
-
-            setError('');
+            if (response.data.success) {
+                dispatch(userLoginAction({
+                    "success": response.data.success,
+                    "message": response.data.message,
+                    "useremail": response.data.email, // Adjust based on your API response
+                    "nickname": response.data.nickname, // Adjust based on your API response
+                    "avatar": response.data.avatar // Adjust based on your API response
+                }));
+            } else {
+                setError(response.data.message);
+            }
         } catch (err) {
             setError(err.response ? err.response.data.message : 'Login failed'); // Handle error
         } finally {

@@ -12,8 +12,15 @@ export const restoreUserStateAction = (user) => {
     return {
         type: 'RESTORE_USER',
         userEmail: user.userEmail,
-        userEmail: user.userEmail,
+        nickname: user.nickname,
         avatar: user.avatar,
         isLoggedIn: user.isLoggedIn
+    }
+}
+
+export const userLogoutAction = (user) => {
+    return {
+        type: 'LOGOUT_USER',
+        userEmail: user.userEmail,
     }
 }

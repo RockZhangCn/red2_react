@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'; // {{ edit_1 }}
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import { userLogoutAction } from '../../actions/userActions';
 
 const NavBar = ( {title}) => {
     const [top, setTop] = useState(!window.scrollY);
     const user = useSelector(state => state.user);
-    // console.log("NavLinks avatar is ", user.avatar);
+    const dispatch = useDispatch(); // {{ edit_2 }}
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -15,6 +16,12 @@ const NavBar = ( {title}) => {
         window.addEventListener('scroll', scrollHandler);
         return () => window.removeEventListener('scroll', scrollHandler);
     }, [top]);
+
+    function logout(event) {
+        
+        console.log("User logout.");
+        dispatch(userLogoutAction(user));
+    }
 
     return (
         <nav>
@@ -27,8 +34,12 @@ const NavBar = ( {title}) => {
             </div>
 
             <div className="33">
-                <img src={user.avatar} style={{ display: user.isLoggedIn ? "inline" : "none", 
-                    width:'50px', height:'50px', borderRadius: '50%', }}></img>
+                <img 
+                    src={user.avatar} 
+                    style={{ display: user.isLoggedIn ? "inline" : "none", 
+                    width:'50px', height:'50px', borderRadius: '50%', }} 
+                    onClick={logout}
+                ></img>
                 { user.isLoggedIn ? user.nickName : "unLogin" }
             </div>
         </nav>
