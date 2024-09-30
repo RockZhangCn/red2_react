@@ -1,6 +1,7 @@
 import NavBar from '../components/Navbar/Navbar';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Add this import
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -12,28 +13,35 @@ function Register() {
 
     const avatars = Array.from({ length: 24 }, (_, i) => `/avatar/icon_${i + 1}.png`);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setPasswordError('Passwords do not match');
             return;
         }
-        // Handle registration logic here
-        console.log('Registration submitted', { email, password, confirmPassword, nickname });
+        try {
+            const response = await axios.post('http://localhost:5256/register', {
+                email,
+                password,
+                nickname,
+                avatar,
+            });
+            console.log('Registration successful', response.data);
+            // Handle successful registration (e.g., redirect or show a success message)
+        } catch (error) {
+            console.error('Registration failed', error);
+            // Handle error (e.g., show an error message)
+        }
     };
-
-    function onAvatarSelect(event) {
-        
-    }
 
     return (
         <>
-            <NavBar />
+            <NavBar title={"Register"} />
             <div className="container">
                 <div className="row justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
                     <div className="col-md-6">
-                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-                            <h2 className="text-center mb-4">Register</h2>
+                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow" style={{ maxHeight: '100vh', overflowY: 'auto' }}>
+                            {/* <h2 className="text-center mb-4">Register</h2> */}
                             
                             <div className="mb-3">
                                 <label htmlFor="nickname" className="form-label">Nickname (for in-game display)</label>
@@ -68,14 +76,11 @@ function Register() {
                                     required
                                     minLength={8}
                                 />
-                                <small className="form-text text-muted">Password must be at least 8 characters long.</small>
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
                                 <input
                                     type="password"
                                     className="form-control"
                                     id="confirmPassword"
+                                    style={{"marginTop":'10px'}}
                                     value={confirmPassword}
                                     onChange={(e) => {
                                         setConfirmPassword(e.target.value);
@@ -88,6 +93,7 @@ function Register() {
                                     required
                                 />
                                 {passwordError && <div className="text-danger">{passwordError}</div>}
+                                <small className="form-text text-muted">Password must be at least 8 characters long.</small>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="avatar" className="form-label">Select Avatar</label>
@@ -98,7 +104,7 @@ function Register() {
                                             src={avatarPath} 
                                             onClick={() => setAvatar(avatarPath)} // Update to set the selected avatar
                                             style={{ margin: '2px', display: 'inline', width: '50px', height: '50px', cursor: 'pointer',
-                                                border: `${avatar == avatarPath ? 2 : 0}px solid blue`,
+                                                border: `${avatar === avatarPath ? 2 : 0}px solid blue`,
                                              }} 
                                             alt={`Avatar ${avatarPath.split('_')[1].split('.')[0]}`} 
                                         />
