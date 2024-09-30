@@ -1,16 +1,17 @@
 import NavBar from '../components/Navbar/Navbar';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add this import
 import axios from 'axios'; // Add this import
 
 function Register() {
+    const navigate = useNavigate(); // Initialize useNavigate
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [nickname, setNickname] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [avatar, setAvatar] = useState('');
-
+    const [error, setError] = useState(''); // 错误信息
     const avatars = Array.from({ length: 24 }, (_, i) => `/avatar/icon_${i + 1}.png`);
 
     const handleSubmit = async (e) => {
@@ -29,10 +30,15 @@ function Register() {
                 avatar,
             });
             console.log('Registration successful, client received', response.data);
-            // Handle successful registration (e.g., redirect or show a success message)
+            if (response.data.success) {
+                navigate('/'); // Redirect to home page on success
+            } else {
+                setError(response.data.message);
+            }
         } catch (error) {
             console.error('Registration failed', error);
             // Handle error (e.g., show an error message)
+            setError('Registration failed', error);
         }
     };
 
@@ -44,7 +50,7 @@ function Register() {
                     <div className="col-md-6">
                         <form onSubmit={handleSubmit} className="p-4 border rounded shadow" style={{ maxHeight: '100vh', overflowY: 'auto' }}>
                             {/* <h2 className="text-center mb-4">Register</h2> */}
-                            
+                            {error && <div className="alert alert-danger">{error}</div>}
                             <div className="mb-3">
                                 <label htmlFor="nickname" className="form-label">Nickname (for in-game display)</label>
                                 <input
