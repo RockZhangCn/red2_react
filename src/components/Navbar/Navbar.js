@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'; // {{ edit_1 }}
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { userLogoutAction } from '../../actions/userActions';
+import axios from 'axios'; // {{ edit_1 }}
 
 const NavBar = ( {title}) => {
     const [top, setTop] = useState(!window.scrollY);
@@ -18,9 +19,20 @@ const NavBar = ( {title}) => {
     }, [top]);
 
     function logout(event) {
-        
         console.log("User logout.");
-        dispatch(userLogoutAction(user));
+        // Send POST request to /logout using Axios
+        axios.post('http://localhost:5256/logout', { email: user.userEmail, nickname: user.nickName, avatar:user.avatar,}
+            , { withCredentials: true}
+        ) // Send user data in the request body
+            .then(response => {
+                console.log("User logout with received data", response.data);
+                if (response.data.success) {
+                    dispatch(userLogoutAction(user));
+                }
+            })
+            .catch(error => {
+                console.error("Logout failed:", error);
+            });
     }
 
     return (

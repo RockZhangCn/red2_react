@@ -26,7 +26,7 @@ function Home() {
             const response = await axios.post('http://localhost:5256/login', {
                 email,
                 password
-            }); // Send POST request with email and password
+            }, { withCredentials: true}); // Send POST request with email and password
 
             console.log("We begin to dispatch event email ", email);
             if (response.data.success) {
