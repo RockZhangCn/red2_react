@@ -10,7 +10,7 @@ class CommandBoard extends React.Component {
     render() {
         return (
             <div style={{display:'flex', alignItems: 'center', justifyContent:'space-around', margin:'10px'}}>
-                <InfoBoard value="Zhang Shou Nian"/>
+                <InfoBoard value="Game information"/>
                 <Button text = "Ready" onClick={this.handleButtonClick} />
                 <Button text = "Shot" onClick={this.handleButtonClick} />
                 <Button text = "Skip" onClick={this.handleButtonClick} />

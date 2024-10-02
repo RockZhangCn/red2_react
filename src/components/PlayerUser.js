@@ -20,7 +20,7 @@ function PlayerUser({avatar, nickname, horizontal}) {
         <p style={{display: horizontal?'inline':'block', margin:'0', // Set margin to 0 for horizontal alignment
             maxWidth: '100%', maxHeight: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nickname}</p>
 
-        <InfoBoard value="Zhang Shou Nian"/>
+        <InfoBoard value="Game Information"/>
     </div>
     );
 }

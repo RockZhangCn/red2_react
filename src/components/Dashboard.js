@@ -60,10 +60,10 @@ function Dashboard () {
 
     ];
 
+    const [gamehall, setGameHall] = useState([]);
+
     const dispatch = useDispatch();
     
-    //dispatch(gameHallRTDataAction(mockData));
-
     const user = useSelector(state => state.user);
     
     const [connected, setConnected] = useState(false);
@@ -72,7 +72,7 @@ function Dashboard () {
     const maxReconnectInterval = 30000; // Maximum of 30 seconds
   
     const connectWebSocket = () => {
-      websocketRef.current = new WebSocket('ws://your-websocket-url');
+      websocketRef.current = new WebSocket('ws://localhost:5256/ws_hall');
   
       websocketRef.current.onopen = () => {
         setConnected(true);
@@ -82,13 +82,20 @@ function Dashboard () {
   
       websocketRef.current.onmessage = (event) => {
         const newMessage = event.data;
-        dispatch(gameHallRTDataAction(newMessage));
+        const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
+        
+        console.log("We received message from websocket1  ", jsonMessage);
+        setGameHall(jsonMessage);
+        dispatch(gameHallRTDataAction(jsonMessage));
       };
   
-      websocketRef.current.onclose = () => {
-        setConnected(false);
-        console.log('Disconnected. Reconnecting...');
-        attemptReconnect();
+      websocketRef.current.onclose = (event) => {
+        if (event.wasClean) {
+          console.log(`WebSocket closed cleanly with code: ${event.code}`);
+        } else {
+          console.error("WebSocket connection closed unexpectedly");
+        }
+        //attemptReconnect();
       };
   
       websocketRef.current.onerror = (error) => {
@@ -97,23 +104,26 @@ function Dashboard () {
     };
   
     const attemptReconnect = () => {
+      var attemptInterval = 0;
       if (reconnectInterval.current <= maxReconnectInterval) {
-        setTimeout(() => {
-          console.log(`Reconnecting in ${reconnectInterval.current / 1000} seconds...`);
-          connectWebSocket();
-          reconnectInterval.current *= 2; // Exponentially increase the delay
-        }, reconnectInterval.current);
+          attemptInterval = reconnectInterval.current
+      } else {
+        attemptInterval = maxReconnectInterval
       }
+      
+      setTimeout(() => {
+        console.log(`Reconnecting in ${attemptInterval / 1000} seconds...`);
+        connectWebSocket();
+        reconnectInterval.current *= 2; // Exponentially increase the delay
+      }, attemptInterval);
     };
   
     useEffect(() => {
-      //connectWebSocket();
-      //TODO move it to websocket received message.
-      dispatch(gameHallRTDataAction(mockData));
+      connectWebSocket();
 
       return () => {
-        if (websocketRef.current) {
-          websocketRef.current.close();
+        if (websocketRef.current && websocketRef.current.readyState === WebSocket.OPEN) {
+          websocketRef.current.close(1000, 'Component unmounted');
         }
       };
     }, []);
@@ -121,7 +131,7 @@ function Dashboard () {
     return (
         <div style={{ display: 'flex', backgroundColor: 'gray', padding: '20px', flexWrap: 'wrap',
         justifyContent: 'flex-start', alignItems: 'flex-start', }}>
-            {mockData.map(item => (
+            {gamehall.map(item => (
                 <Table key={item.tableIdx} tableIdx={item.tableIdx} users={item.tableUsers}/> 
             ))}   
         </div>
