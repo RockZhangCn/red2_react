@@ -5,16 +5,23 @@ import "./TableCss.css"
 import { selectAPosAction } from "../actions/gameActions";
 import { useNavigate } from "react-router-dom";
 
-function Table({ tableIdx, users }) { // Removed key from props
+function Table({ tableIdx, users, takeSeatCallback }) { // Removed key from props
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const game = useSelector(state => state.game);
     const navigate = useNavigate();
 
     function SelectASeat(seatPos) {
-        console.log("we Select seat ", tableIdx * 10 + seatPos);
-        dispatch(selectAPosAction(tableIdx * 10 + seatPos));
-        navigate('/playing/' + tableIdx);
+        
+        const tableUsers = game.gamehall[tableIdx-1].tableUsers;
+        console.log("we Select seat ", tableIdx , seatPos, game.gamehall, tableUsers);
+
+        if (tableUsers.find(user => user.pos == seatPos)) {
+            console.log("Already have a people seated here");
+        } else {
+            //dispatch(selectAPosAction(tableIdx * 10 + seatPos));
+            takeSeatCallback(tableIdx, seatPos);
+        }
     }
 
     const seatThisTable = (game.tableId === tableIdx);

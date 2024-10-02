@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Table from './Table';
 import React, { useRef, useEffect, useState } from 'react';
 import { gameHallRTDataAction } from '../actions/gameActions';
+import { useNavigate } from "react-router-dom";
+
 
 function Dashboard () {
     const mockData = [
@@ -14,56 +16,18 @@ function Dashboard () {
                 {pos:4, "avatar":"/avatar/icon_24.png", "nickname":"user4"},
             ],
         },
-        {     
-            "tableIdx":2, 
-            tableUsers: [      
-            {pos:1, "avatar":"/avatar/icon_5.png", "nickname":"user1"},
-            {pos:2, "avatar":"/avatar/icon_19.png", "nickname":"user2"},
-            {pos:3, "avatar":"/avatar/icon_9.png", "nickname":"user3"},
-            {pos:4, "avatar":"/avatar/icon_4.png", "nickname":"user4"},
-            ]
-        },
-        {
-            "tableIdx":3,
-            tableUsers: [
-                {pos:1, "avatar":"/avatar/icon_13.png", "nickname":"user1"},
-                {pos:2, "avatar":"/avatar/icon_6.png", "nickname":"user2"},
-                {pos:4, "avatar":"/avatar/icon_22.png", "nickname":"user4"},
-            ],
-        },
-        {
-            "tableIdx":4,
-            tableUsers: [
-            ],
-        },
-        {
-            "tableIdx":5,
-            tableUsers: [
-                {pos:2, "avatar":"/avatar/icon_7.png", "nickname":"user2"},
-            ],
-        },
-        {
-            "tableIdx":6,
-            tableUsers: [
-            ],
-        },
-        {
-            "tableIdx":7,
-            tableUsers: [
-            ],
-        },
+          
         {
             "tableIdx":8,
             tableUsers: [
             ],
         },
-
     ];
 
     const [gamehall, setGameHall] = useState([]);
 
     const dispatch = useDispatch();
-    
+    const navigate = useNavigate();
     const user = useSelector(state => state.user);
     
     const [connected, setConnected] = useState(false);
@@ -75,27 +39,29 @@ function Dashboard () {
       websocketRef.current = new WebSocket('ws://localhost:5256/ws_hall');
   
       websocketRef.current.onopen = () => {
-        setConnected(true);
-        console.log('Connected to WebSocket');
-        reconnectInterval.current = 1000; // Reset interval after successful connection
+          setConnected(true);
+          console.log('Connected to WebSocket');
+          reconnectInterval.current = 1000; // Reset interval after successful connection
       };
   
       websocketRef.current.onmessage = (event) => {
-        const newMessage = event.data;
-        const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
-        
-        console.log("We received message from websocket1  ", jsonMessage);
-        setGameHall(jsonMessage);
-        dispatch(gameHallRTDataAction(jsonMessage));
+          const newMessage = event.data;
+          const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
+          
+          console.log("We received message from websocket1  ", jsonMessage);
+          if (jsonMessage.Type === "BroadCast") {
+              setGameHall(jsonMessage.Data);
+              dispatch(gameHallRTDataAction(jsonMessage.Data));
+          }
       };
   
       websocketRef.current.onclose = (event) => {
-        if (event.wasClean) {
-          console.log(`WebSocket closed cleanly with code: ${event.code}`);
-        } else {
-          console.error("WebSocket connection closed unexpectedly");
-        }
-        //attemptReconnect();
+          if (event.wasClean) {
+            console.log(`WebSocket closed cleanly with code: ${event.code}`);
+          } else {
+            console.error("WebSocket connection closed unexpectedly");
+          }
+          //attemptReconnect();
       };
   
       websocketRef.current.onerror = (error) => {
@@ -128,11 +94,17 @@ function Dashboard () {
       };
     }, []);
 
+    function takeSeatCallback (tableIdx, pos) {
+      const message = { action: 'TAKESEAT', tableIdx: tableIdx, pos:pos }; // Create the JSON object
+      websocketRef.current.send(JSON.stringify(message)); // Send the JSON string
+      navigate('/playing/' + tableIdx);
+    }
+
     return (
         <div style={{ display: 'flex', backgroundColor: 'gray', padding: '20px', flexWrap: 'wrap',
         justifyContent: 'flex-start', alignItems: 'flex-start', }}>
             {gamehall.map(item => (
-                <Table key={item.tableIdx} tableIdx={item.tableIdx} users={item.tableUsers}/> 
+                <Table key={item.tableIdx} tableIdx={item.tableIdx} users={item.tableUsers} takeSeatCallback={takeSeatCallback}/> 
             ))}   
         </div>
     );
