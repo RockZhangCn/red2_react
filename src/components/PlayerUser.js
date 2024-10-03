@@ -1,11 +1,11 @@
-
+import { generateAvatarPath } from "../utility/AvatarConvert";
 import InfoBoard from "./InfoBoard";
 function PlayerUser({avatar, nickname, horizontal}) {
 
     return (
     <div style={{display:'flex', flexDirection: horizontal?'row':'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '20%' }}>
         <img 
-            src={avatar}
+            src={generateAvatarPath(avatar)}
             title={nickname}
             style={{ 
                 display: horizontal?'inline':'block',

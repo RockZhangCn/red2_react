@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { userLogoutAction } from '../../actions/userActions';
 import axios from 'axios'; // {{ edit_1 }}
+import { extractNumber, generateAvatarPath } from "../../utility/AvatarConvert";
+
 
 const NavBar = ( {title}) => {
     const [top, setTop] = useState(!window.scrollY);
@@ -19,9 +21,11 @@ const NavBar = ( {title}) => {
     }, [top]);
 
     function logout(event) {
-        console.log("User logout.");
+
+        var logOutData = { email: user.userEmail, nickname: user.nickName, avatar:user.avatar,};
+        console.log("User logout with data ", logOutData);
         // Send POST request to /logout using Axios
-        axios.post('http://localhost:5256/logout', { email: user.userEmail, nickname: user.nickName, avatar:user.avatar,}
+        axios.post('http://localhost:5256/logout', logOutData
             , { withCredentials: true}
         ) // Send user data in the request body
             .then(response => {
@@ -47,7 +51,7 @@ const NavBar = ( {title}) => {
 
             <div className="33">
                 <img 
-                    src={user.avatar} 
+                    src={generateAvatarPath(user.avatar)} 
                     style={{ display: user.isLoggedIn ? "inline" : "none", 
                     width:'50px', height:'50px', borderRadius: '50%', }} 
                     onClick={logout}

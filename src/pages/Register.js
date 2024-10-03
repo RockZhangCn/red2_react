@@ -10,9 +10,20 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [nickname, setNickname] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [avatar, setAvatar] = useState('');
+    const [avatar, setAvatar] = useState(0);
     const [error, setError] = useState(''); // 错误信息
     const avatars = Array.from({ length: 24 }, (_, i) => `/avatar/icon_${i + 1}.png`);
+
+    // Example of extracting the number from the avatar string
+    const extractNumber = (avatarPath) => {
+        const match = avatarPath.match(/_(\d+)\.png/);
+        return match ? Number(match[1]) : 0; // Returns the number or null if not found
+    };
+
+    const generateAvatarPath = (avatar) => {
+        return  `/avatar/icon_${avatar}.png`
+    }
+   
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,12 +33,12 @@ function Register() {
         }
         try {
             console.log("We begin to register user", email, " password", password, "nickname", nickname,
-                "avatar", avatar);
+                "avatar", avatar, " typeof avatar ", typeof avatar);
             const response = await axios.post('http://localhost:5256/register', {
-                email,
-                password,
-                nickname,
-                avatar,
+                Email:email,
+                Password:password,
+                Nickname: nickname,
+                Avatar: avatar,
             });
             console.log('Registration successful, client received', response.data);
             if (response.data.success) {
@@ -36,9 +47,9 @@ function Register() {
                 setError(response.data.message);
             }
         } catch (error) {
-            console.error('Registration failed', error);
+            console.error('Client: Registration failed', error);
             // Handle error (e.g., show an error message)
-            setError('Registration failed', error);
+            //setError('Client: Registration failed', error);
         }
     };
 
@@ -110,11 +121,11 @@ function Register() {
                                         <img 
                                             key={avatarPath} 
                                             src={avatarPath} 
-                                            onClick={() => setAvatar(avatarPath)} // Update to set the selected avatar
+                                            onClick={() => setAvatar(extractNumber(avatarPath))} // Update to set the selected avatar
                                             style={{ margin: '2px', display: 'inline', width: '50px', height: '50px', cursor: 'pointer',
-                                                border: `${avatar === avatarPath ? 2 : 0}px solid blue`,
+                                                border: `${generateAvatarPath(avatar) === avatarPath ? 2 : 0}px solid blue`,
                                              }} 
-                                            alt={`Avatar ${avatarPath.split('_')[1].split('.')[0]}`} 
+                                            alt={avatarPath} 
                                         />
                                     ))}
                                 </div>

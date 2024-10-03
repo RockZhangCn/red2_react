@@ -1,10 +1,11 @@
+import { extractNumber, generateAvatarPath } from "../utility/AvatarConvert";
 
 function SeatedUser({avatar, nickname, showName}) {
 
     return (
     <div style={{ textAlign: 'center', backgroundColor: 'transparent', padding:'1px', borderRadius: '5px', width: '100%', height: '100%' }}>
         <img 
-            src={avatar}
+            src={generateAvatarPath(avatar)}
             title={nickname}
             style={{ 
                 borderRadius: '50%', 
