@@ -1,4 +1,4 @@
-import { extractNumber, generateAvatarPath } from "../utility/AvatarConvert";
+import { generateAvatarPath } from "../utility/AvatarConvert";
 
 function SeatedUser({avatar, nickname, showName}) {
 

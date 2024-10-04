@@ -3,33 +3,19 @@ import Table from './Table';
 import React, { useRef, useEffect, useState } from 'react';
 import { gameHallRTDataAction } from '../actions/gameActions';
 import { useNavigate } from "react-router-dom";
+import { extractNumber, generateAvatarPath } from "../utility/AvatarConvert";
 
 
 function Dashboard () {
-    const mockData = [
-        {
-            "tableIdx":1,
-            tableUsers: [
-                {pos:1, "avatar":"/avatar/icon_1.png", "nickname":"user1"},
-                {pos:2, "avatar":"/avatar/icon_4.png", "nickname":"user2"},
-                {pos:3, "avatar":"/avatar/icon_14.png", "nickname":"user3"},
-                {pos:4, "avatar":"/avatar/icon_24.png", "nickname":"user4"},
-            ],
-        },
-          
-        {
-            "tableIdx":8,
-            tableUsers: [
-            ],
-        },
-    ];
-
     const [gamehall, setGameHall] = useState([]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector(state => state.user);
     
+    const[trySeatTable, setTrySeatTable] = useState(0);
+    const[trySeatPos, setTrySeatPos] = useState(0);
+
     const [connected, setConnected] = useState(false);
     const websocketRef = useRef(null);
     const reconnectInterval = useRef(1000); // Start with 1 second
@@ -48,10 +34,12 @@ function Dashboard () {
           const newMessage = event.data;
           const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
           
-          console.log("We received message from websocket1  ", jsonMessage);
+          console.log("We received message from websocket1  ", jsonMessage, "table", trySeatTableRef.current, "Pos", trySeatPosRef.current);
           if (jsonMessage.Type === "BroadCast") {
               setGameHall(jsonMessage.Data);
               dispatch(gameHallRTDataAction(jsonMessage.Data));
+          } else if (jsonMessage.Type === 'REPLY' && jsonMessage.Result) {
+              navigate('/playing/' + trySeatTableRef.current);
           }
       };
   
@@ -94,10 +82,27 @@ function Dashboard () {
       };
     }, []);
 
+    useEffect(() => {
+      // This effect will run whenever trySeatTable changes
+      console.log("Updated trySeatTable:", trySeatTable);
+  }, [trySeatTable]);
+
+    const trySeatTableRef = useRef(trySeatTable); // Create a ref to hold the current value
+    const trySeatPosRef = useRef(trySeatPos); 
+
+    useEffect(() => {
+        trySeatTableRef.current = trySeatTable; // Update the ref whenever trySeatTable changes
+        trySeatPosRef.current = trySeatPos;
+    }, [trySeatTable, trySeatPos]);
+
     function takeSeatCallback (tableIdx, pos) {
-      const message = { action: 'TAKESEAT', tableIdx: tableIdx, pos:pos }; // Create the JSON object
-      websocketRef.current.send(JSON.stringify(message)); // Send the JSON string
-      navigate('/playing/' + tableIdx);
+      // Send the JSON string
+      console.log("takeSeatCallback save try seat", tableIdx, pos);
+      setTrySeatTable(tableIdx);
+      setTrySeatPos(pos);
+
+      const message = { Action: 'TAKESEAT', Avatar: user.avatar, NickName: user.nickName, TableIdx: tableIdx, Pos:pos }; // Create the JSON object
+      websocketRef.current.send(JSON.stringify(message)); 
     }
 
     return (

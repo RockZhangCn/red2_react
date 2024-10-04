@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Table({ tableIdx, users, takeSeatCallback }) { // Removed key from props
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const game = useSelector(state => state.game);
     // const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Table({ tableIdx, users, takeSeatCallback }) { // Removed key from prop
         if (tableUsers.find(user => user.pos == seatPos)) {
             console.log("Already have a people seated here");
         } else {
-            //dispatch(selectAPosAction(tableIdx * 10 + seatPos));
+            dispatch(selectAPosAction(tableIdx * 10 + seatPos));
             takeSeatCallback(tableIdx, seatPos);
         }
     }
