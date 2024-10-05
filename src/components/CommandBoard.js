@@ -2,15 +2,8 @@ import React from 'react';
 import Button from './Button.js';
 import InfoBoard from './InfoBoard.js';
 
+function CommandBoard ({handleButtonClick}) {
 
-function CommandBoard () {
-
-    function handleButtonClick (buttonPos) {
-        // Send the JSON string
-       console.log("Button", buttonPos, "is clicked.");
-    }
-
-    
     return (
         <div style={{display:'flex', alignItems: 'center', justifyContent:'space-around', margin:'10px'}}>
             <InfoBoard value="Game information"/>

@@ -28,22 +28,25 @@ const initialState = {
     var result = null;
     switch (action.type) {
         case 'TAKEASEAT':
-        result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
-        console.log("gameReducer new state ", result);
-        return result;
+            result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
+            console.log("gameReducer new state ", result);
+            return result;
       
-      case 'GAMEHALL_RT_DATA':
-        console.log("AAAAA gameReducer received GAMEHALL_RT_DATA action", action.data);
-        result =  {...state, gamehall:action.data};
-        localStorage.setItem('gamehall', JSON.stringify(result)); // store the mocked court data.
-        return result;
+        case 'GAMEHALL_RT_DATA':
+            console.log("AAAAA gameReducer received GAMEHALL_RT_DATA action", action.data);
+            result =  {...state, gamehall:action.data};
+            localStorage.setItem('gamehall', JSON.stringify(result)); // store the mocked court data.
+            return result;
       
       case 'RESTORE_GAMEHALL_DATA':
-        console.log("AAAAA we finally restore gamehall data", action);
-        return { ...state, gamehall: action.data,};
+            console.log("AAAAA we finally restore gamehall data", action);
+            return { ...state, gamehall: action.data,};
 
-        default:
-        return state;
+      case 'STANDUP':
+            return {...state, tableId:-1, tablePos:-1}
+
+      default:
+            return state;
     }
   };
   

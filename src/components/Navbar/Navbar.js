@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'; // {{ edit_1 }}
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { userLogoutAction } from '../../actions/userActions';
+import { leaveTheSeatAction} from '../../actions/gameActions';
 import axios from 'axios'; // {{ edit_1 }}
 import { extractNumber, generateAvatarPath } from "../../utility/AvatarConvert";
 
@@ -31,6 +32,7 @@ const NavBar = ( {title}) => {
             .then(response => {
                 console.log("User logout with received data", response.data);
                 if (response.data.success) {
+                    dispatch(leaveTheSeatAction());
                     dispatch(userLogoutAction(user));
                 }
             })

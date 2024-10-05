@@ -47,7 +47,6 @@ function Home() {
         }
     };
     
-    // 如果已登录，显示登录成功后的页面
     if (user.isLoggedIn) {
         return (
         <>

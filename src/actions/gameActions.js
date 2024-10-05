@@ -14,6 +14,12 @@ export const gameHallRTDataAction = (data) => {
     }
 }
 
+export const leaveTheSeatAction = () => {
+    return {
+        type: 'STANDUP',
+    }
+}
+
 export const restoreGameHallDataAction = (data) => {
     return {
         type: 'RESTORE_GAMEHALL_DATA',
