@@ -6,11 +6,10 @@ import { selectAPosAction } from "../actions/gameActions";
 import { useNavigate } from "react-router-dom";
 
 
-function Table({ tableIdx, users, takeSeatCallback }) { // Removed key from props
+function Table({ tableIdx, users, takeSeatCallback }) {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const game = useSelector(state => state.game);
-    // const navigate = useNavigate();
 
     function SelectASeat(seatPos) {
         

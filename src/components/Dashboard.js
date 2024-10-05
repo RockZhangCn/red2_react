@@ -22,6 +22,7 @@ function Dashboard () {
     const maxReconnectInterval = 30000; // Maximum of 30 seconds
   
     const connectWebSocket = () => {
+      console.log("We are connectWebSocket.");
       websocketRef.current = new WebSocket('ws://localhost:5256/ws_hall');
   
       websocketRef.current.onopen = () => {
@@ -45,10 +46,11 @@ function Dashboard () {
   
       websocketRef.current.onclose = (event) => {
           if (event.wasClean) {
-            console.log(`WebSocket closed cleanly with code: ${event.code}`);
+              console.warn(`WebSocket closed cleanly with code: ${event.code}`);
           } else {
-            console.error("WebSocket connection closed unexpectedly");
+              console.error("WebSocket connection closed unexpectedly");
           }
+          setConnected(false);
           //attemptReconnect();
       };
   
