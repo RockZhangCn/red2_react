@@ -2,14 +2,14 @@ import "./GameBoard.css"
 import PlayerUser from "../components/PlayerUser.js"
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardBox from "../components/CardBox.js"
 import CommandBoard from "../components/CommandBoard.js";
 
 function GameBoard() {
     const { tableId } = useParams();
     // const dispatch = useDispatch();
-
+    const websocketRef = useRef(null);
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
     console.log("AAAA GameBoard we have user", user);
@@ -32,6 +32,53 @@ function GameBoard() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, []);
+
+    const connectWebSocket = () => {
+        console.log("We are connectWebSocket.");
+        websocketRef.current = new WebSocket('ws://localhost:5256/ws_playing');
+    
+        websocketRef.current.onopen = () => {
+            console.log('Connected to WebSocket');
+        };
+    
+        websocketRef.current.onmessage = (event) => {
+            const newMessage = event.data;
+            const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
+            
+            if (jsonMessage.Type === "BroadCast") {
+            
+            } else if (jsonMessage.Type === 'REPLY' && jsonMessage.Result) {
+                
+            }
+        };
+    
+        websocketRef.current.onclose = (event) => {
+            if (event.wasClean) {
+                console.warn(`WebSocket closed cleanly with code: ${event.code}`);
+            } else {
+                console.error("WebSocket connection closed unexpectedly");
+            }
+        };
+    
+        websocketRef.current.onerror = (error) => {
+          console.error('WebSocket error', error);
+        };
+      };
+
+    
+    useEffect(() => {
+        connectWebSocket();
+        return () => {
+            if (websocketRef.current && websocketRef.current.readyState === WebSocket.OPEN) {
+                websocketRef.current.close(1000, 'Component unmounted');
+            }
+        };
+    }, []);
+
+    function UserActionClicked(button) {
+        console.log("Button", button, "is Clicked");
+
+    }
 
     const leftUser = tableData.tableUsers.find(item => item.pos === 1);
     // const bottomUser = tableData.tableUsers.find(item => item.pos === 2);
@@ -56,7 +103,7 @@ function GameBoard() {
 
                 <div className="bottom">
                     {/* {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> } */}
-                    <CommandBoard/>  
+                    <CommandBoard handleButtonClick= {UserActionClicked}/>  
                     <CardBox valueList={[2, 3,5, 9,16, 23, 33,45, 46, 50]} long='50%' horizontal={true} selectable={true}/> 
                   
                 </div>

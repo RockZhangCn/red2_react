@@ -1,9 +1,9 @@
 // ChildButton.js
 import React from 'react';
 
-const Button = ({ text , onClick }) => {
+const Button = ({ text, onBtnClick }) => {
     return (
-        <button className="btn btn-primary"  onClick={onClick}>
+        <button className="btn btn-primary" onClick={() => onBtnClick(text)}>
             {text}
         </button>
     );

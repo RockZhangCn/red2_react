@@ -15,12 +15,16 @@ function Dashboard () {
     
     const[trySeatTable, setTrySeatTable] = useState(0);
     const[trySeatPos, setTrySeatPos] = useState(0);
-
+  
+    const trySeatTableRef = useRef(trySeatTable); // Create a ref to hold the current value
+    const trySeatPosRef = useRef(trySeatPos); 
+    
     const [connected, setConnected] = useState(false);
     const websocketRef = useRef(null);
     const reconnectInterval = useRef(1000); // Start with 1 second
     const maxReconnectInterval = 30000; // Maximum of 30 seconds
-  
+
+
     const connectWebSocket = () => {
       console.log("We are connectWebSocket.");
       websocketRef.current = new WebSocket('ws://localhost:5256/ws_hall');
@@ -88,9 +92,6 @@ function Dashboard () {
       // This effect will run whenever trySeatTable changes
       console.log("Updated trySeatTable:", trySeatTable);
   }, [trySeatTable]);
-
-    const trySeatTableRef = useRef(trySeatTable); // Create a ref to hold the current value
-    const trySeatPosRef = useRef(trySeatPos); 
 
     useEffect(() => {
         trySeatTableRef.current = trySeatTable; // Update the ref whenever trySeatTable changes

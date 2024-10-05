@@ -14,16 +14,12 @@ const USER_STATUS = {
     READY: 2,  // waiting for game to start
     PLAYING: 3, // game starts, and player is playing
     SELF_END: 4, // player successed or failed priorily in the game
-    
     // After the game end, retured to SEATED status.
 }
 
 const initialState = {
-    userEmail: null,
     tableId: -1,
     tablePos: -1,
-    otherPlayers: null,
-    userStatus: USER_STATUS.LOGOUT,
     gamehall: [],
   };
   
@@ -31,9 +27,6 @@ const initialState = {
     console.log("gameReducer received action " + action);
     var result = null;
     switch (action.type) {
-      case 'INCREMENT_SCORE':
-        return { ...state, score: state.score + action.payload };
-      
         case 'TAKEASEAT':
         result = { ...state, tableId: Math.floor(action.composedPos / 10), tablePos: action.composedPos % 10};
         console.log("gameReducer new state ", result);
@@ -49,9 +42,6 @@ const initialState = {
         console.log("AAAAA we finally restore gamehall data", action);
         return { ...state, gamehall: action.data,};
 
-      case 'GAME_OVER':
-        return { ...state, isGameOver: true };
-      
         default:
         return state;
     }
