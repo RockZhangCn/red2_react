@@ -54,7 +54,7 @@ function GameBoard() {
             const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
             
             if (jsonMessage.Type === "BroadCast") {
-            
+                console.log("We received broadcast data ", jsonMessage);
             } else if (jsonMessage.Type === 'REPLY' && jsonMessage.Result) {
                 
             }
