@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      dispatch(restoreUserStateAction(JSON.parse(savedUser))); // 恢复 Redux 状态
+        dispatch(restoreUserStateAction(JSON.parse(savedUser))); // 恢复 Redux 状态
     }
 
     // const gameHall = localStorage.getItem('gamehall');

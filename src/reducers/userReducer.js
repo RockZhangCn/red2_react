@@ -24,7 +24,8 @@ const userReducer = (state = initialState, action) => {
         
         case 'LOGOUT_USER':
             console.log("we are going to logout user", action);
-            localStorage.setItem('user', null); // 存储登录态
+            localStorage.removeItem('user'); // 存储登录态
+            localStorage.removeItem('gamehall')
             return { ...state, isLoggedIn: false, userEmail: null, nickName: null, avatar:null};
 
         default:

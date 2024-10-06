@@ -16,7 +16,11 @@ function Table({ tableIdx, users, takeSeatCallback }) {
         const tableUsers = game.gamehall[tableIdx-1].tableUsers;
         console.log("we Select seat ", tableIdx , seatPos, game.gamehall, tableUsers);
 
-        if (tableUsers.find(user => user.pos == seatPos)) {
+        var clickMySelf = (tableIdx === game.tableId) && (seatPos === game.tablePos);
+        if (clickMySelf)
+          console.log("we Select outself");
+
+        if (tableUsers.find(user => user.pos == seatPos) && !clickMySelf) {
             console.log("Already have a people seated here");
         } else {
             dispatch(selectAPosAction(tableIdx * 10 + seatPos));

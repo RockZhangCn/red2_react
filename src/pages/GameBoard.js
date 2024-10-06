@@ -15,6 +15,14 @@ function GameBoard() {
     console.log("AAAA GameBoard we have user", user);
     console.log("AAAAA GameBoard we have data", game.gamehall, "tableId", tableId);
 
+    var seatPos = game.tablePos - 1;
+
+    var leftPlayerPos = (seatPos + 3) % 4;
+    var rightPlayerPos = (seatPos + 1) % 4;
+    var topPlayerPos = (seatPos + 2) % 4;
+
+    console.log("We seat", seatPos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos);
+
     const tableData = game.gamehall.find(item => (item.tableIdx === Number(tableId)));
 
     console.log("GameBoard we into table", tableData);
@@ -80,10 +88,10 @@ function GameBoard() {
 
     }
 
-    const leftUser = tableData.tableUsers.find(item => item.pos === 1);
+    const leftUser = tableData.tableUsers.find(item => item.pos === leftPlayerPos + 1);
     // const bottomUser = tableData.tableUsers.find(item => item.pos === 2);
-    const rightUser = tableData.tableUsers.find(item => item.pos === 3);
-    const topUser = tableData.tableUsers.find(item => item.pos === 4);
+    const rightUser = tableData.tableUsers.find(item => item.pos === rightPlayerPos + 1);
+    const topUser = tableData.tableUsers.find(item => item.pos === topPlayerPos + 1);
     return (
         <div className="gameboard">
             <div className="left">
