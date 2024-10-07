@@ -1,6 +1,6 @@
 import { generateAvatarPath } from "../utility/AvatarConvert";
 import InfoBoard from "./InfoBoard";
-function PlayerUser({ avatar, nickname, horizontal }) {
+function PlayerUser({ avatar, nickname, horizontal, message }) {
   return (
     <div
       style={{
@@ -39,7 +39,7 @@ function PlayerUser({ avatar, nickname, horizontal }) {
         {nickname}
       </p>
 
-      <InfoBoard value="Game Information" />
+      <InfoBoard value={message} />
     </div>
   );
 }

@@ -13,12 +13,6 @@ function GameBoard() {
     const websocketRef = useRef(null);
     const [buttonGroup, setButtonGroup] = useState({"Ready":true});
 
-    const [bottomMessage, setBottomMessage] = useState("No body");
-    const [leftMessage, setLeftMessage] = useState("No body");
-    const [rightMessage, setRightMessage] = useState("No body");
-    const [topMessage, setTopMessage] = useState("No body");
-
-
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
     console.log("AAAA GameBoard we have user", user);
@@ -86,8 +80,6 @@ function GameBoard() {
                 } else if (jsonMessage.Data.GameStatus == 2) { // GameGrab2.
                     setButtonGroup({"Grab2s":true, "NoGrab":false});
                 }
-
-                setBottomMessage(mySelf.Message);
             }
         };
     
@@ -155,35 +147,40 @@ function GameBoard() {
 
     }
 
-
     return (
         <div className="gameboard">
             <div className="left">
-                    {leftUser && <PlayerUser avatar={leftUser?.AvatarId} nickname={leftUser?.Nickname} horizontal={false}/> }
-                    <CardBox valueList={leftUser?.Cards} long='40%' horizontal={false} hide={true} />
+                    {leftUser && <PlayerUser avatar={leftUser?.AvatarId} nickname={leftUser?.Nickname} horizontal={false} message={leftUser?.Message}/> }
+                    {leftUser?(<CardBox valueList={leftUser?.Cards} long='40%' horizontal={false} hide={true} />):
+                    ( <div style={{display: 'flex', height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
+                    )}
              
             </div>
             <div className="middle">
                 <div className="top"> 
-                    {topUser && <PlayerUser avatar={topUser?.AvatarId} nickname={topUser?.Nickname} horizontal={true}/> } 
-                    <CardBox valueList={topUser?.Cards}  long='80%' hide={true} horizontal={true}  />
+                    {topUser && <PlayerUser avatar={topUser?.AvatarId} nickname={topUser?.Nickname} horizontal={true} message={topUser?.Message}/> } 
+                    {topUser?(<CardBox valueList={topUser?.Cards}  long='80%' hide={true} horizontal={true} />):
+                    ( <div style={{display: 'flex', height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
+                    )}
 
                 </div>
                 <div className="center">
-                    <CardBox valueList={[2, 3,5, 9,16, 23, 33,45, 46, 50]} long='50%' horizontal={true}/>
+                    <CardBox valueList={tableData?.CentreCards??[]} long='50%' horizontal={true}/>
                 </div>
 
                 <div className="bottom">
                     {/* {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> } */}
-                    <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomMessage}/>  
+                    <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomUser?.Message}/>  
                     <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true}/> 
                   
                 </div>
             </div>
 
             <div className="right">
-                {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false}/> }
-                <CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />
+                {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false} message={rightUser?.Message}/> }
+                {leftUser?(<CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />):
+                    ( <div style={{display: 'flex', height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
+                    )}
 
             </div>
         </div>

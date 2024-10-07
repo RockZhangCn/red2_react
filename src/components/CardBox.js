@@ -32,7 +32,7 @@ function CardBox({valueList, long, horizontal, hide, selectable}) {
 
     } else {
         return (
-            <div style={{display:'flex', border:'1px solid', padding:'5px', flexDirection: 'column', justifyContent: 'flex-start'}}>
+            <div style={{display:'flex', flex:'1', width:'70%', border:'1px solid', padding:'5px', flexDirection: 'column', justifyContent: 'flex-start'}}>
             {valueList&&
                 valueList.map((item, index) => 
                     <Card value={hide?55:item} long={long} key={index} horizontal={horizontal} isLast={index === valueList.length - 1}/>

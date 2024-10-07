@@ -38,7 +38,7 @@ function Dashboard() {
       const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
 
       console.log(
-        "We received message from websocket1  ",
+        "We received message from websocket bigHall: ",
         jsonMessage,
         "table",
         trySeatTableRef.current,
