@@ -29,17 +29,16 @@ const NavBar = ( {title}) => {
         axios.post('http://localhost:5256/logout', logOutData
             , { withCredentials: true}
         ) // Send user data in the request body
-            .then(response => {
-                console.log("User logout with received data", response.data);
-                //if (response.data.success) {
-                // force to logout for the sake of testing. ROCKZHANG
-                    dispatch(leaveTheSeatAction());
-                    dispatch(userLogoutAction(user));
-                //}
-            })
-            .catch(error => {
-                console.error("Logout failed:", error);
-            });
+        .then(response => {
+            console.log("User logout with received data", response.data);
+            if (response.data.success) {
+                dispatch(leaveTheSeatAction());
+                dispatch(userLogoutAction(user));
+            }
+        })
+        .catch(error => {
+            console.error("Logout failed:", error);
+        });
     }
 
     return (

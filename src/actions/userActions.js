@@ -12,7 +12,7 @@ export const restoreUserStateAction = (user) => {
     return {
         type: 'RESTORE_USER',
         userEmail: user.userEmail,
-        nickname: user.nickname,
+        nickName: user.nickName,
         avatar: user.avatar,
         isLoggedIn: user.isLoggedIn
     }
