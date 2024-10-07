@@ -178,7 +178,7 @@ function GameBoard() {
 
             <div className="right">
                 {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false} message={rightUser?.Message}/> }
-                {leftUser?(<CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />):
+                {rightUser?(<CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />):
                     ( <div style={{display: 'flex', height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
                     )}
 
