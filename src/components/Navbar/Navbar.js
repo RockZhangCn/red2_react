@@ -31,10 +31,11 @@ const NavBar = ( {title}) => {
         ) // Send user data in the request body
             .then(response => {
                 console.log("User logout with received data", response.data);
-                if (response.data.success) {
+                //if (response.data.success) {
+                // force to logout for the sake of testing. ROCKZHANG
                     dispatch(leaveTheSeatAction());
                     dispatch(userLogoutAction(user));
-                }
+                //}
             })
             .catch(error => {
                 console.error("Logout failed:", error);

@@ -68,21 +68,6 @@ function Dashboard() {
     };
   };
 
-  const attemptReconnect = () => {
-    var attemptInterval = 0;
-    if (reconnectInterval.current <= maxReconnectInterval) {
-      attemptInterval = reconnectInterval.current;
-    } else {
-      attemptInterval = maxReconnectInterval;
-    }
-
-    setTimeout(() => {
-      console.log(`Reconnecting in ${attemptInterval / 1000} seconds...`);
-      connectWebSocket();
-      reconnectInterval.current *= 2; // Exponentially increase the delay
-    }, attemptInterval);
-  };
-
   useEffect(() => {
     connectWebSocket();
 
@@ -91,6 +76,7 @@ function Dashboard() {
         websocketRef.current &&
         websocketRef.current.readyState === WebSocket.OPEN
       ) {
+        console.log("We close bighall websocket in client.");
         websocketRef.current.close(1000, "Component unmounted");
       }
     };

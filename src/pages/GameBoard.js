@@ -1,20 +1,22 @@
 import "./GameBoard.css"
 import PlayerUser from "../components/PlayerUser.js"
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import CardBox from "../components/CardBox.js"
 import CommandBoard from "../components/CommandBoard.js";
+import { leaveTheSeatAction } from "../actions/gameActions.js"
 
 function GameBoard() {
     const { tableId } = useParams();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const websocketRef = useRef(null);
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
     console.log("AAAA GameBoard we have user", user);
-    console.log("AAAAA GameBoard we have data", game.gamehall, "tableId", tableId);
+    console.log("AAAAA GameBoard we have data tableId", tableId);
 
+    const [tableData, setTableData] = useState(null);
     var seatPos = game.tablePos - 1;
 
     var leftPlayerPos = (seatPos + 3) % 4;
@@ -22,10 +24,6 @@ function GameBoard() {
     var topPlayerPos = (seatPos + 2) % 4;
 
     console.log("We seat", seatPos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos);
-
-    const tableData = game.gamehall.find(item => (item.tableIdx === Number(tableId)));
-
-    console.log("GameBoard we into table", tableData);
 
     // stop refresh the page.
     useEffect(() => {
@@ -41,12 +39,24 @@ function GameBoard() {
         };
     }, []);
 
+    function WeAreIn() {
+        const message = {
+            Action: "IAMIN",
+            Avatar: user.avatar,
+            NickName: user.nickName,
+            TableIdx: Number(tableId),
+            Pos: game.tablePos,
+          }; // Create the JSON object
+          websocketRef.current.send(JSON.stringify(message));
+    }
+
     const connectWebSocket = () => {
         console.log("We are connectWebSocket.");
         websocketRef.current = new WebSocket('ws://localhost:5256/ws_playing');
     
         websocketRef.current.onopen = () => {
             console.log('Connected to WebSocket');
+            WeAreIn();
         };
     
         websocketRef.current.onmessage = (event) => {
@@ -54,7 +64,9 @@ function GameBoard() {
             const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
             
             if (jsonMessage.Type === "BroadCast") {
-                console.log("We received broadcast data ", jsonMessage);
+                console.log("We received broadcast room data ", jsonMessage);
+                setTableData(jsonMessage.Data);
+
             } else if (jsonMessage.Type === 'REPLY' && jsonMessage.Result) {
                 
             }
@@ -64,7 +76,7 @@ function GameBoard() {
             if (event.wasClean) {
                 console.warn(`WebSocket closed cleanly with code: ${event.code}`);
             } else {
-                console.error("WebSocket connection closed unexpectedly");
+                console.warn("GameBoard WebSocket connection closed");
             }
         };
     
@@ -73,11 +85,23 @@ function GameBoard() {
         };
       };
 
-    
     useEffect(() => {
         connectWebSocket();
         return () => {
             if (websocketRef.current && websocketRef.current.readyState === WebSocket.OPEN) {
+                console.log("User exit current page");
+                // You can add additional logic here if needed
+                const message = {
+                    Action: "IAMQUIT",
+                    Avatar: user.avatar,
+                    NickName: user.nickName,
+                    TableIdx: Number(tableId),
+                    Pos: game.tablePos,
+                }; // Create the JSON object
+                websocketRef.current.send(JSON.stringify(message));
+
+                dispatch(leaveTheSeatAction());
+
                 websocketRef.current.close(1000, 'Component unmounted');
             }
         };
@@ -85,24 +109,23 @@ function GameBoard() {
 
     function UserActionClicked(button) {
         console.log("Button", button, "is Clicked");
-
     }
 
-    const leftUser = tableData.tableUsers.find(item => item.pos === leftPlayerPos + 1);
-    // const bottomUser = tableData.tableUsers.find(item => item.pos === 2);
-    const rightUser = tableData.tableUsers.find(item => item.pos === rightPlayerPos + 1);
-    const topUser = tableData.tableUsers.find(item => item.pos === topPlayerPos + 1);
+    const leftUser = tableData?.Players.find(item => item.Pos === leftPlayerPos + 1);
+    const bottomUser = tableData?.Players.find(item => item.pos === seatPos);
+    const rightUser = tableData?.Players.find(item => item.Pos === rightPlayerPos + 1);
+    const topUser = tableData?.Players.find(item => item.Pos === topPlayerPos + 1);
     return (
         <div className="gameboard">
             <div className="left">
-                    {leftUser && <PlayerUser avatar={leftUser.avatar} nickname={leftUser.nickname} horizontal={false}/> }
-                    <CardBox valueList={[2, 3,5, 9,16, 23, 33,45, 46, 50]} long='40%' horizontal={false} hide={true} />
+                    {leftUser && <PlayerUser avatar={leftUser?.AvatarId} nickname={leftUser?.Nickname} horizontal={false}/> }
+                    <CardBox valueList={leftUser?.Cards} long='40%' horizontal={false} hide={true} />
              
             </div>
             <div className="middle">
                 <div className="top"> 
-                    {topUser && <PlayerUser avatar={topUser.avatar} nickname={topUser.nickname} horizontal={true}/> } 
-                    <CardBox valueList={[2, 3,5, 9,16, 23, 33,45, 46, 50]}  long='80%' hide={true} horizontal={true}  />
+                    {topUser && <PlayerUser avatar={topUser?.AvatarId} nickname={topUser?.Nickname} horizontal={true}/> } 
+                    <CardBox valueList={topUser?.Cards}  long='80%' hide={true} horizontal={true}  />
 
                 </div>
                 <div className="center">
@@ -112,15 +135,15 @@ function GameBoard() {
                 <div className="bottom">
                     {/* {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> } */}
                     <CommandBoard handleButtonClick= {UserActionClicked}/>  
-                    <CardBox valueList={[2, 3,5, 9,16, 23, 33,45, 46, 50]} long='50%' horizontal={true} selectable={true}/> 
+                    <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true}/> 
                   
                 </div>
             </div>
 
             <div className="right">
-                {rightUser && <PlayerUser avatar={rightUser.avatar} nickname={rightUser.nickname} horizontal={false}/> }
+                {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false}/> }
                 
-                <CardBox valueList={[3,3,2,5, 9, 23, 45, 46, 2]} long='40%' horizontal={false} hide={true} />
+                <CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />
 
             </div>
         </div>
