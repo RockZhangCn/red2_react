@@ -11,6 +11,14 @@ function GameBoard() {
     const { tableId } = useParams();
     const dispatch = useDispatch();
     const websocketRef = useRef(null);
+    const [buttonGroup, setButtonGroup] = useState({"Ready":true});
+
+    const [bottomMessage, setBottomMessage] = useState("No body");
+    const [leftMessage, setLeftMessage] = useState("No body");
+    const [rightMessage, setRightMessage] = useState("No body");
+    const [topMessage, setTopMessage] = useState("No body");
+
+
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
     console.log("AAAA GameBoard we have user", user);
@@ -19,11 +27,16 @@ function GameBoard() {
     const [tableData, setTableData] = useState(null);
     var seatPos = game.tablePos - 1;
 
-    var leftPlayerPos = (seatPos + 3) % 4;
-    var rightPlayerPos = (seatPos + 1) % 4;
-    var topPlayerPos = (seatPos + 2) % 4;
+    var leftPlayerPos = (seatPos + 3) % 4 + 1;
+    var rightPlayerPos = (seatPos + 1) % 4 + 1;
+    var topPlayerPos = (seatPos + 2) % 4 + 1;
 
-    console.log("We seat", seatPos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos);
+    console.log("We seat", game.tablePos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos, "table Data is", tableData);
+
+    const leftUser = tableData?.Players.find(item => item.Pos === leftPlayerPos );
+    const bottomUser = tableData?.Players.find(item => item.Pos === game.tablePos );
+    const rightUser = tableData?.Players.find(item => item.Pos === rightPlayerPos );
+    const topUser = tableData?.Players.find(item => item.Pos === topPlayerPos );
 
     // stop refresh the page.
     useEffect(() => {
@@ -64,11 +77,17 @@ function GameBoard() {
             const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
             
             if (jsonMessage.Type === "BroadCast") {
-                console.log("We received broadcast room data ", jsonMessage);
+                console.log("We received broadcast room data ", jsonMessage.Data);
                 setTableData(jsonMessage.Data);
 
-            } else if (jsonMessage.Type === 'REPLY' && jsonMessage.Result) {
-                
+                var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos );
+                if (mySelf.Status ==2) {
+                    setButtonGroup({"Ready":false});
+                } else if (jsonMessage.Data.GameStatus == 2) { // GameGrab2.
+                    setButtonGroup({"Grab2s":true, "NoGrab":false});
+                }
+
+                setBottomMessage(mySelf.Message);
             }
         };
     
@@ -107,14 +126,36 @@ function GameBoard() {
         };
     }, []);
 
-    function UserActionClicked(button) {
-        console.log("Button", button, "is Clicked");
+
+    function sendActionMessage(Action) {
+        const message = {
+            Action: "IAMREADY",
+            Avatar: user.avatar,
+            NickName: user.nickName,
+            TableIdx: Number(tableId),
+            Pos: game.tablePos,
+        }; // Create the JSON object
+        websocketRef.current.send(JSON.stringify(message));
     }
 
-    const leftUser = tableData?.Players.find(item => item.Pos === leftPlayerPos + 1);
-    const bottomUser = tableData?.Players.find(item => item.pos === seatPos);
-    const rightUser = tableData?.Players.find(item => item.Pos === rightPlayerPos + 1);
-    const topUser = tableData?.Players.find(item => item.Pos === topPlayerPos + 1);
+    function UserActionClicked(button) {
+        console.log("Button", button, "is Clicked");
+
+        if (button === "Ready") {
+            sendActionMessage("IAMREADY");
+        } else if (button === "Grab2s") {
+            sendActionMessage("IAMREADY");
+        } else if (button === "Yield2") {
+            sendActionMessage("YIELD2");
+        } else if (button === "Shot") {
+
+        } else if (button === "Skip") {
+            sendActionMessage("SKIP");
+        }
+
+    }
+
+
     return (
         <div className="gameboard">
             <div className="left">
@@ -134,7 +175,7 @@ function GameBoard() {
 
                 <div className="bottom">
                     {/* {bottomUser && <PlayerUser avatar={bottomUser.avatar} nickname={bottomUser.nickname} horizontal={true}/> } */}
-                    <CommandBoard handleButtonClick= {UserActionClicked}/>  
+                    <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomMessage}/>  
                     <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true}/> 
                   
                 </div>
@@ -142,7 +183,6 @@ function GameBoard() {
 
             <div className="right">
                 {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false}/> }
-                
                 <CardBox valueList={rightUser?.Cards} long='40%' horizontal={false} hide={true} />
 
             </div>
