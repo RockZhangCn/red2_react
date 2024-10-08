@@ -2,6 +2,7 @@ import NavBar from '../components/Navbar/Navbar';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Add this import
 import axios from 'axios'; // Add this import
+import {HTTP_SERVER} from '../Server/Server.js'
 
 function Register() {
     const navigate = useNavigate(); // Initialize useNavigate
@@ -34,7 +35,7 @@ function Register() {
         try {
             console.log("We begin to register user", email, " password", password, "nickname", nickname,
                 "avatar", avatar, " typeof avatar ", typeof avatar);
-            const response = await axios.post('http://localhost:5256/register', {
+            const response = await axios.post(HTTP_SERVER + '/register', {
                 Email:email,
                 Password:password,
                 Nickname: nickname,

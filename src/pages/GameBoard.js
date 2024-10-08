@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import CardBox from "../components/CardBox.js"
 import CommandBoard from "../components/CommandBoard.js";
 import { leaveTheSeatAction } from "../actions/gameActions.js"
+import { WS_SERVER } from "../Server/Server.js"
 
 function GameBoard() {
     const { tableId } = useParams();
@@ -59,7 +60,7 @@ function GameBoard() {
 
     const connectWebSocket = () => {
         console.log("We are connectWebSocket.");
-        websocketRef.current = new WebSocket('ws://localhost:5256/ws_playing');
+        websocketRef.current = new WebSocket(WS_SERVER + '/ws_playing');
     
         websocketRef.current.onopen = () => {
             console.log('Connected to WebSocket');
@@ -75,9 +76,9 @@ function GameBoard() {
                 setTableData(jsonMessage.Data);
 
                 var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos );
-                if (mySelf.Status ==2) {
+                if (mySelf.Status === 2) {
                     setButtonGroup({"Ready":false});
-                } else if (jsonMessage.Data.GameStatus == 2) { // GameGrab2.
+                } else if (jsonMessage.Data.GameStatus === 2) { // GameGrab2.
                     setButtonGroup({"Grab2s":true, "NoGrab":false});
                 }
             }

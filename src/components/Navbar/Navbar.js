@@ -6,7 +6,7 @@ import { userLogoutAction } from '../../actions/userActions';
 import { leaveTheSeatAction} from '../../actions/gameActions';
 import axios from 'axios'; // {{ edit_1 }}
 import { extractNumber, generateAvatarPath } from "../../utility/AvatarConvert";
-
+import { HTTP_SERVER } from '../../Server/Server.js'
 
 const NavBar = ( {title}) => {
     const [top, setTop] = useState(!window.scrollY);
@@ -26,7 +26,7 @@ const NavBar = ( {title}) => {
         var logOutData = { email: user.userEmail, nickname: user.nickName, avatar:user.avatar,};
         console.log("User logout with data ", logOutData);
         // Send POST request to /logout using Axios
-        axios.post('http://localhost:5256/logout', logOutData
+        axios.post(HTTP_SERVER+'/logout', logOutData
             , { withCredentials: true}
         ) // Send user data in the request body
         .then(response => {

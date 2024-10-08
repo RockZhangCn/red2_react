@@ -4,6 +4,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { gameHallRTDataAction } from "../actions/gameActions";
 import { useNavigate } from "react-router-dom";
 import { extractNumber, generateAvatarPath } from "../utility/AvatarConvert";
+import { WS_SERVER} from "../Server/Server.js"
+
 
 function Dashboard() {
   const [gamehall, setGameHall] = useState([]);
@@ -25,7 +27,7 @@ function Dashboard() {
 
   const connectWebSocket = () => {
     console.log("We are connectWebSocket.");
-    websocketRef.current = new WebSocket("ws://localhost:5256/ws_hall");
+    websocketRef.current = new WebSocket(WS_SERVER + '/ws_hall');
 
     websocketRef.current.onopen = () => {
       setConnected(true);

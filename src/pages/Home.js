@@ -6,6 +6,7 @@ import axios from 'axios'; // Import Axios
 
 import { userLoginAction } from '../actions/userActions';
 import Dashboard from '../components/Dashboard.js'; // Import the Dashboard component
+import { HTTP_SERVER } from '../Server/Server.js'
 
 function Home() {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function Home() {
         setLoading(true); // 开始加载
 
         try {
-            const response = await axios.post('http://localhost:5256/login', {
+            const response = await axios.post(HTTP_SERVER + '/login', {
                 email,
                 password
             }, { withCredentials: true}); // Send POST request with email and password
