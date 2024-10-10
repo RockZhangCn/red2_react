@@ -1,18 +1,33 @@
 import Card from "./Card"
 import {useState} from 'react'
 
-function CardBox({valueList, long, horizontal, hide, selectable}) {
+function CardBox({valueList, long, horizontal, hide, selectable, onCardsSelected}) {
     const [selectedSet, setSelectedSet] = useState([]);
+    
+    if (hide && valueList) {
+        valueList = valueList.slice(0,8);
+    }
+
+    if (valueList) {
+        valueList.sort((a,b) => b - a);
+    }
 
     function onCardClicked(selected, cardValue) {
         setSelectedSet(prevSelectedSet => {
             if(selected) {
                 const newValue = [...prevSelectedSet, cardValue];
                 console.log("we select", newValue);
+
+                onCardsSelected(newValue);
                 return newValue;
             } else {
-                const newValue = prevSelectedSet.filter(element => element !== cardValue);
-                console.log("we select", newValue);
+                const indexToRemove = prevSelectedSet.findIndex(element => element === cardValue);
+                const newValue = [
+                    ...prevSelectedSet.slice(0, indexToRemove),
+                    ...prevSelectedSet.slice(indexToRemove + 1)
+                ];
+
+                onCardsSelected(newValue);
                 return newValue;
             }
         });
@@ -20,7 +35,7 @@ function CardBox({valueList, long, horizontal, hide, selectable}) {
 
     if (horizontal) {
         return (
-            <div style={{display:'flex', flex:'1', border:'1px solid', padding:'25px', height:'70%', flexDirection: 'row', justifyContent: 'center'}}>
+            <div style={{display:'flex', flex:'1', border:'1px solid', padding:'15px', height:'70%', flexDirection: 'row', justifyContent: 'center'}}>
             { valueList&&
                 valueList.map((item, index) => 
                     <Card value={hide?55:item} long={long} key={index} onClick={onCardClicked}
