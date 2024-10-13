@@ -1,11 +1,26 @@
+import { useSelector } from 'react-redux';
 import NavBar from '../components/Navbar/Navbar.js';
 
 function NotFound(width, height) {
-    return (
-    <>
-        <img src='/card/poker_0.png' style={{width:width, height:height}}/>
-    </>
-    );
+
+    const user = useSelector(state => state.user);
+
+    if (user.isLoggedIn) {
+        return (
+        <>
+            <NavBar title="Welcome"/>
+            <br></br>
+            <h1> Page Not Found.</h1>
+        </>
+        );
+    } else {
+        return (
+            <>
+                <NavBar title="Please Login"/>
+                <br></br>
+                <h1 style={{margin:'auto', textAlign:'center'}}> Page Not Found.</h1>
+            </>);
+    }
 }
 
 export default NotFound;
