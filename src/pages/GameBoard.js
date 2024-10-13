@@ -16,6 +16,7 @@ function GameBoard() {
     const websocketRef = useRef(null);
     const [buttonGroup, setButtonGroup] = useState({"Ready":true});
     const [selectedCards, setSelectedCards] = useState([]);
+    const [activePos, setAcitvePos] = useState(0);
     let pingInterval; // Store the interval ID
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
@@ -91,8 +92,10 @@ function GameBoard() {
                 setTableData(jsonMessage.Data);
 
                 var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos);
+                
+                setAcitvePos(jsonMessage.Data?.ActivePos);
 
-                var isMyTurn = mySelf.IsActive;
+                var isMyTurn = (game.tablePos === jsonMessage.Data?.ActivePos);
 
                 if (mySelf == null) {
                     console.error("We can't find ourself in broadcast message");
@@ -160,7 +163,7 @@ function GameBoard() {
 
     function sendActionMessage(Action) {
         const message = {
-            Action: "IAMREADY",
+            Action: Action,
             Avatar: user.avatar,
             NickName: user.nickName,
             TableIdx: Number(tableId),
@@ -180,7 +183,9 @@ function GameBoard() {
         if (button === "Ready") {
             sendActionMessage("IAMREADY");
         } else if (button === "Grab2s") {
-            sendActionMessage("IAMREADY");
+            sendActionMessage("GRAB2S");
+        } else if (button === "NoGrab") {
+            sendActionMessage("SKIP");
         } else if (button === "Yield2") {
             sendActionMessage("YIELD2");
         } else if (button === "Shot") {
@@ -192,6 +197,7 @@ function GameBoard() {
                 Pos: game.tablePos,
                 Cards: selectedCards,
             }; // Create the JSON object
+            setSelectedCards([]);
             websocketRef.current.send(JSON.stringify(message));
         } else if (button === "Skip") {
             sendActionMessage("SKIP");
@@ -203,7 +209,7 @@ function GameBoard() {
         <div className="gameboard">
             <div className="left">
                     {leftUser && <PlayerUser avatar={leftUser?.AvatarId} nickname={leftUser?.Nickname} horizontal={false} message={leftUser?.Message}/> }
-                    {leftUser?(<CardBox valueList={leftUser?.Cards} long='80%' horizontal={false} hide={true} />):
+                    {leftUser?(<CardBox valueList={leftUser?.Cards} long='80%' horizontal={false} hide={true} active={leftUser.Pos === activePos}/>):
                     ( <div style={{display: 'flex', flex:1, height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
                     )}
              
@@ -211,7 +217,7 @@ function GameBoard() {
             <div className="middle">
                 <div className="top"> 
                     {topUser && <PlayerUser avatar={topUser?.AvatarId} nickname={topUser?.Nickname} horizontal={true} message={topUser?.Message}/> } 
-                    {topUser?(<CardBox valueList={topUser?.Cards}  long='80%' hide={true} horizontal={true} />):
+                    {topUser?(<CardBox valueList={topUser?.Cards}  long='80%' hide={true} horizontal={true} active={topUser.Pos === activePos}/>):
                     ( <div style={{display: 'flex', height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
                     )}
 
@@ -222,14 +228,14 @@ function GameBoard() {
 
                 <div className="bottom">
                     <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomUser?.Message}/>  
-                    <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true} onCardsSelected={OnUserSelectedCards}/> 
+                    <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true} onCardsSelected={OnUserSelectedCards} active={bottomUser?.Pos === activePos}/> 
                   
                 </div>
             </div>
 
             <div className="right">
                 {rightUser && <PlayerUser avatar={rightUser?.AvatarId} nickname={rightUser?.Nickname} horizontal={false} message={rightUser?.Message}/> }
-                {rightUser?(<CardBox valueList={rightUser?.Cards} long='80%' horizontal={false} hide={true} />):
+                {rightUser?(<CardBox valueList={rightUser?.Cards} long='80%' horizontal={false} hide={true} active={rightUser.Pos === activePos}/>):
                     ( <div style={{display: 'flex', flex: 1, height:'100%', width:'100%', border: 'solid 1px', justifyContent: 'center', alignItems: 'center', }}> Waiting player</div>
                     )}
 

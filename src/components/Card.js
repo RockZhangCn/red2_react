@@ -4,7 +4,7 @@ function Card({value, long, horizontal, isLast, onClick, selectable}) {
 
     const [selected, setSelected] = useState(false);
 
-    function adjustThePostOfPicture(value) {
+    function adjustThePosOfPicture(value) {
         console.log("Picture", value, "before is clicked, status is", selected);
         setSelected(prevSelected => {
             const newSelected = !prevSelected;
@@ -21,7 +21,7 @@ function Card({value, long, horizontal, isLast, onClick, selectable}) {
         return (
             <div style={style}>
                 <img className={"clickableimage"} alt={'/card/poker_' + value + '.png'} src={'/card/poker_' + value + '.png'} 
-                onClick={()=>{ if (selectable) adjustThePostOfPicture(value); }}
+                onClick={()=>{ if (selectable) adjustThePosOfPicture(value); }}
                 style={{ height: '100%', marginTop: 'auto', marginBottom: 'auto', width: 'auto' }} />
             </div>
         );

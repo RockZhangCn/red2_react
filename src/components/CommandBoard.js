@@ -11,11 +11,15 @@ function CommandBoard ({handleButtonClick, buttons, showedText}) {
 
     return (
         <div style={{display:'flex', alignItems: 'center', justifyContent:'space-around', margin:'10px'}}>
+          
+            {
+                buttonKeys.map(key => (
+                        <Button key={key} text={key} disabled={buttons[key]?false:true} onBtnClick={handleButtonClick} />
+                    )
+                )
+            }            
             <InfoBoard value={showedText}/>
-            {/* Render buttons based on the keys of the JSON object */}
-            {buttonKeys.map(key => (
-                <Button key={key} text={key} disabled={buttons[key]?false:true} onBtnClick={handleButtonClick} />
-            ))}
+
             <img 
                     src={generateAvatarPath(user.avatar)} 
                     style={{ display: "inline", 
