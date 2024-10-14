@@ -115,8 +115,8 @@ function GameBoard() {
                 }
 
                 if (jsonMessage.Data.GameStatus === GameStatus.YIELD2) { // GameGrab2.
-                    var count = mySelf.Cards.filter(card => card === 48);
-                    if (count === 2) {
+                    var red2Cards = mySelf.Cards.filter(card => card === 48);
+                    if (red2Cards.length === 2) {
                         setButtonGroup({"Yield2":true, "NoYield":true});
                     } else {
                         setButtonGroup({"Shot":false, "Skip":false});
@@ -203,7 +203,9 @@ function GameBoard() {
 
             var pattern = GetCardPattern(message.Cards)
             var middlePattern = GetCardPattern(tableData?.CentreCards??[])
-            if (message.Cards.length === 0 ||pattern === CardPattern.MODE_BOMB || pattern === middlePattern) {
+
+            console.log("Middle pattern is ${middlePattern.value}, my pattern is ${patter}");
+            if (tableData?.CentreCards.length === 0 ||pattern === CardPattern.MODE_BOMB || pattern === middlePattern) {
                 setSelectIndexValue([]);
                 websocketRef.current.send(JSON.stringify(message));
             } else {
