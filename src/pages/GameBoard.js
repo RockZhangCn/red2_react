@@ -15,8 +15,11 @@ function GameBoard() {
     const dispatch = useDispatch();
     const websocketRef = useRef(null);
     const [buttonGroup, setButtonGroup] = useState({"Ready":true});
-    const [selectedCards, setSelectedCards] = useState([]);
+
     const [activePos, setAcitvePos] = useState(0);
+    const [selectIndexValue, setSelectIndexValue] = useState([]);
+
+
     let pingInterval; // Store the interval ID
     var game = useSelector(state => state.game);
     var user = useSelector(state => state.user);
@@ -172,11 +175,6 @@ function GameBoard() {
         websocketRef.current.send(JSON.stringify(message));
     }
 
-    function OnUserSelectedCards(cardsList) {
-        console.log("User selected cards", cardsList);
-        setSelectedCards(cardsList);
-    }
-
     function UserActionClicked(button) {
         console.log("Button", button, "is Clicked");
 
@@ -195,15 +193,32 @@ function GameBoard() {
                 NickName: user.nickName,
                 TableIdx: Number(tableId),
                 Pos: game.tablePos,
-                Cards: selectedCards,
+                Cards: selectIndexValue.map(item => item.value),
             }; // Create the JSON object
-            setSelectedCards([]);
+            setSelectIndexValue([]);
             websocketRef.current.send(JSON.stringify(message));
         } else if (button === "Skip") {
             sendActionMessage("SKIP");
         }
 
     }
+
+    function OnUserSelectedCards(index, cardValue) {
+        console.warn("We click card index", index, "cardvalue", cardValue);
+        setSelectIndexValue(prevSelectedSet => {
+            if (prevSelectedSet.some(obj => obj.key === index && obj.value === cardValue)) {
+                const newSet = prevSelectedSet.filter(obj => !(obj.key === index && obj.value === cardValue));
+                console.log("we get newSet remove is", newSet);
+
+                return newSet;
+            } else {
+                const result =  [...prevSelectedSet, {key:index, value:cardValue}]; // Corrected syntax
+                console.log("we get newSet add is", result);
+                return result;
+            }
+        });
+    }
+
 
     return (
         <div className="gameboard">
@@ -228,7 +243,10 @@ function GameBoard() {
 
                 <div className="bottom">
                     <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomUser?.Message}/>  
-                    <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} selectable={true} onCardsSelected={OnUserSelectedCards} active={bottomUser?.Pos === activePos}/> 
+                    <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} 
+                            selectable={true} onCardsSelected={OnUserSelectedCards} 
+                            selectList={selectIndexValue}
+                            active={bottomUser?.Pos === activePos}/> 
                   
                 </div>
             </div>

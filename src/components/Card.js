@@ -1,19 +1,6 @@
 import { useState } from 'react';
 
-function Card({value, long, horizontal, isLast, onClick, selectable}) {
-
-    const [selected, setSelected] = useState(false);
-
-    function adjustThePosOfPicture(value) {
-        console.log("Picture", value, "before is clicked, status is", selected);
-        setSelected(prevSelected => {
-            const newSelected = !prevSelected;
-            console.log("Picture", value, "is clicked, status is", newSelected); // 使用新状态
-            onClick(newSelected, value);
-            return newSelected;
-        });
-    }
-
+function Card({value, long, horizontal, isLast, onClick, index, selected}) {
     if (horizontal) {
         // Check if it's the last image
         const style = isLast ? { transform:selected&&value!==55?'translateY(-20px)':'translateY(0px)',  height: 'auto', width: 'auto', transition: 'transform 0.3s ease' } : 
@@ -21,7 +8,7 @@ function Card({value, long, horizontal, isLast, onClick, selectable}) {
         return (
             <div style={style}>
                 <img className={"clickableimage"} alt={'/card/poker_' + value + '.png'} src={'/card/poker_' + value + '.png'} 
-                onClick={()=>{ if (selectable) adjustThePosOfPicture(value); }}
+                onClick={()=>{ onClick(index,value); }}
                 style={{ height: '100%', marginTop: 'auto', marginBottom: 'auto', width: 'auto' }} />
             </div>
         );
