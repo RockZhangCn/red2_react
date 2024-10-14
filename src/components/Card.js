@@ -1,4 +1,3 @@
-import { useState } from 'react';
 
 function Card({value, long, horizontal, isLast, onClick, index, selected}) {
     if (horizontal) {

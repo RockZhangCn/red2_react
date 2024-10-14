@@ -9,6 +9,7 @@ import { leaveTheSeatAction } from "../actions/gameActions.js"
 import { WS_SERVER } from "../Server/Server.js"
 import GameStatus from "../constants/GameStatus.js";
 import PlayerStatus from "../constants/PlayerStatus.js";
+import {CardPattern, GetCardPattern} from "../rules/CardUtils.js"
 
 function GameBoard() {
     const { tableId } = useParams();
@@ -117,6 +118,8 @@ function GameBoard() {
                     var count = mySelf.Cards.filter(card => card === 48);
                     if (count === 2) {
                         setButtonGroup({"Yield2":true, "NoYield":true});
+                    } else {
+                        setButtonGroup({"Shot":false, "Skip":false});
                     }
                 }
 
@@ -183,9 +186,11 @@ function GameBoard() {
         } else if (button === "Grab2s") {
             sendActionMessage("GRAB2S");
         } else if (button === "NoGrab") {
-            sendActionMessage("SKIP");
+            sendActionMessage("NOGRAB");
         } else if (button === "Yield2") {
             sendActionMessage("YIELD2");
+        } else if (button === "NoYield") {
+            sendActionMessage("NOYIELD");
         } else if (button === "Shot") {
             const message = {
                 Action: "SHOT",
@@ -195,8 +200,15 @@ function GameBoard() {
                 Pos: game.tablePos,
                 Cards: selectIndexValue.map(item => item.value),
             }; // Create the JSON object
-            setSelectIndexValue([]);
-            websocketRef.current.send(JSON.stringify(message));
+
+            var pattern = GetCardPattern(message.Cards)
+            var middlePattern = GetCardPattern(tableData?.CentreCards??[])
+            if (message.Cards.length === 0 ||pattern === CardPattern.MODE_BOMB || pattern === middlePattern) {
+                setSelectIndexValue([]);
+                websocketRef.current.send(JSON.stringify(message));
+            } else {
+                bottomUser.Message = "Against the rules";
+            }
         } else if (button === "Skip") {
             sendActionMessage("SKIP");
         }
