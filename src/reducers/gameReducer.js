@@ -24,7 +24,7 @@ const initialState = {
   };
   
   const gameReducer = (state = initialState, action) => {
-    console.log("gameReducer received action " + action);
+    console.log("gameReducer received action ", action);
     var result = null;
     switch (action.type) {
         case 'TAKEASEAT':
@@ -40,7 +40,7 @@ const initialState = {
 
         case 'GAMEHALL_SEAT_POS':
             result = {...state, tableId:action.data.table, tablePos:action.data.pos};
-            
+
             localStorage.setItem('gamehall', JSON.stringify(result)); // store the mocked court data.
             return result;
       

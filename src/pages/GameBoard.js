@@ -1,6 +1,6 @@
 import "./GameBoard.css"
 import PlayerUser from "../components/PlayerUser.js"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import CardBox from "../components/CardBox.js"
@@ -16,17 +16,22 @@ function GameBoard() {
     const dispatch = useDispatch();
     const websocketRef = useRef(null);
     const [buttonGroup, setButtonGroup] = useState({"Ready":true});
-
+    const navigate = useNavigate();
     const [activePos, setAcitvePos] = useState(0);
     const [selectIndexValue, setSelectIndexValue] = useState([]);
 
     const [userMessage, setUserMessage] = useState("");
 
+    // used for websocket after a refresh.
+    const temporaryUser = useRef(null);
+    const temporaryGame = useRef(null);
+
     let pingInterval; // Store the interval ID
-    var game = useSelector(state => state.game);
-    var user = useSelector(state => state.user);
-    console.log("AAAA GameBoard we have user", user);
-    console.log("AAAAA GameBoard we have data tableId", tableId);
+    const game = useSelector(state => state.game);
+    const user = useSelector(state => state.user);
+    console.log("AAAA GameBoard we have user", user, "tableId", tableId, "Pos", game.tablePos);
+    temporaryUser.current = user;
+    temporaryGame.current = game;
 
     const [tableData, setTableData] = useState(null);
     var seatPos = game.tablePos - 1;
@@ -35,7 +40,7 @@ function GameBoard() {
     var rightPlayerPos = (seatPos + 1) % 4 + 1;
     var topPlayerPos = (seatPos + 2) % 4 + 1;
 
-    console.log("We seat", game.tablePos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos, "table Data is", tableData);
+    // console.log("We seat", game.tablePos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos, "table Data is", tableData);
 
     const leftUser = tableData?.Players.find(item => item.Pos === leftPlayerPos );
     const bottomUser = tableData?.Players.find(item => item.Pos === game.tablePos );
@@ -70,17 +75,17 @@ function GameBoard() {
     }
 
     const connectWebSocket = () => {
-        console.log("We are connectWebSocket.");
+        console.log("We are connectWebSocket, we are user", user.nickName);
         websocketRef.current = new WebSocket(WS_SERVER + '/ws_playing');
     
         websocketRef.current.onopen = () => {
-            console.log('Connected to WebSocket, start the PING set');
+            console.log('Connected to WebSocket, start the PING set', temporaryUser.current);
             const message = {
                 Action: "IAMIN",
-                Avatar: user.avatar,
-                NickName: user.nickName,
+                Avatar: temporaryUser.current.avatar,
+                NickName: temporaryUser.current.nickName,
                 TableIdx: Number(tableId),
-                Pos: game.tablePos,
+                Pos: temporaryGame.current.tablePos,
               }; // Create the JSON object
               websocketRef.current.send(JSON.stringify(message));
             // pingInterval = setInterval(() => { PingKeepAlive(); }, 5000);
@@ -124,6 +129,8 @@ function GameBoard() {
                 if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
                     setButtonGroup({"Shot":isMyTurn, "Skip":isMyTurn});
                 }
+            } else if (jsonMessage.Type === "RETURN") {
+                navigate("/");
             }
         };
     
