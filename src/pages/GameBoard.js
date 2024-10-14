@@ -20,6 +20,7 @@ function GameBoard() {
     const [activePos, setAcitvePos] = useState(0);
     const [selectIndexValue, setSelectIndexValue] = useState([]);
 
+    const [userMessage, setUserMessage] = useState("");
 
     let pingInterval; // Store the interval ID
     var game = useSelector(state => state.game);
@@ -41,6 +42,7 @@ function GameBoard() {
     const rightUser = tableData?.Players.find(item => item.Pos === rightPlayerPos );
     const topUser = tableData?.Players.find(item => item.Pos === topPlayerPos );
 
+    setUserMessage(bottomUser.Message);
     // stop refresh the page.
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -209,12 +211,11 @@ function GameBoard() {
                 setSelectIndexValue([]);
                 websocketRef.current.send(JSON.stringify(message));
             } else {
-                bottomUser.Message = "Against the rules";
+                setUserMessage("Shot againsts the rules");
             }
         } else if (button === "Skip") {
             sendActionMessage("SKIP");
         }
-
     }
 
     function OnUserSelectedCards(index, cardValue) {
@@ -256,7 +257,7 @@ function GameBoard() {
                 </div>
 
                 <div className="bottom">
-                    <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={bottomUser?.Message}/>  
+                    <CommandBoard handleButtonClick={UserActionClicked} buttons = {buttonGroup} showedText={userMessage}/>  
                     <CardBox valueList={bottomUser?.Cards} long='50%' horizontal={true} 
                             selectable={true} onCardsSelected={OnUserSelectedCards} 
                             selectList={selectIndexValue}
