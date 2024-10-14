@@ -42,7 +42,7 @@ function GameBoard() {
     const rightUser = tableData?.Players.find(item => item.Pos === rightPlayerPos );
     const topUser = tableData?.Players.find(item => item.Pos === topPlayerPos );
 
-    setUserMessage(bottomUser.Message);
+    
     // stop refresh the page.
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -56,17 +56,6 @@ function GameBoard() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, []);
-
-    function WeAreIn() {
-        const message = {
-            Action: "IAMIN",
-            Avatar: user.avatar,
-            NickName: user.nickName,
-            TableIdx: Number(tableId),
-            Pos: game.tablePos,
-          }; // Create the JSON object
-          websocketRef.current.send(JSON.stringify(message));
-    }
 
     function PingKeepAlive() {
         const message = {
@@ -86,7 +75,14 @@ function GameBoard() {
     
         websocketRef.current.onopen = () => {
             console.log('Connected to WebSocket, start the PING set');
-            WeAreIn();
+            const message = {
+                Action: "IAMIN",
+                Avatar: user.avatar,
+                NickName: user.nickName,
+                TableIdx: Number(tableId),
+                Pos: game.tablePos,
+              }; // Create the JSON object
+              websocketRef.current.send(JSON.stringify(message));
             // pingInterval = setInterval(() => { PingKeepAlive(); }, 5000);
         };
     
@@ -96,9 +92,9 @@ function GameBoard() {
             if (jsonMessage.Type === "BroadCast") {
                 console.log("We received broadcast room data ", jsonMessage.Data);
                 setTableData(jsonMessage.Data);
-
-                var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos);
                 
+                var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos);
+                setUserMessage(mySelf.Message);
                 setAcitvePos(jsonMessage.Data?.ActivePos);
 
                 var isMyTurn = (game.tablePos === jsonMessage.Data?.ActivePos);

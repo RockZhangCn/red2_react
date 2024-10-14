@@ -13,6 +13,12 @@ export const gameHallRTDataAction = (data) => {
         data: data,
     }
 }
+export const gameHallSeatPosAction = (data) => {
+    return {
+        type: 'GAMEHALL_SEAT_POS',
+        data: data,
+    }
+}
 
 export const leaveTheSeatAction = () => {
     return {

@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import Table from "./Table";
 import React, { useRef, useEffect, useState } from "react";
-import { gameHallRTDataAction } from "../actions/gameActions";
+import { gameHallRTDataAction , gameHallSeatPosAction} from "../actions/gameActions";
 import { useNavigate } from "react-router-dom";
-import { extractNumber, generateAvatarPath } from "../utility/AvatarConvert";
 import { WS_SERVER} from "../Server/Server.js"
 
 
@@ -49,8 +48,11 @@ function Dashboard() {
       );
       if (jsonMessage.Type === "BroadCast") {
         setGameHall(jsonMessage.Data);
+        console.log("We received gamehall data is", jsonMessage.Data);
         dispatch(gameHallRTDataAction(jsonMessage.Data));
       } else if (jsonMessage.Type === "REPLY" && jsonMessage.Result) {
+        console.log("BBBB we set table", trySeatTableRef.current,"Pos", trySeatPosRef.current);
+        dispatch(gameHallSeatPosAction({"table":trySeatTableRef.current, "pos":trySeatPosRef.current}));
         navigate("/playing/" + trySeatTableRef.current);
       }
     };

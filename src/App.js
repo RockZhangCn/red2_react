@@ -25,11 +25,11 @@ function App() {
         dispatch(restoreUserStateAction(JSON.parse(savedUser))); // 恢复 Redux 状态
     }
 
-    // const gameHall = localStorage.getItem('gamehall');
-    // console.log("AAAAA app to restore gamehall", gameHall)
-    // if (gameHall) {
-    //   dispatch(restoreGameHallDataAction(JSON.parse(gameHall)));
-    // }
+    const gameHall = localStorage.getItem('gamehall');
+    console.log("AAAAA app to restore gamehall", gameHall)
+    if (gameHall) {
+      dispatch(restoreGameHallDataAction(JSON.parse(gameHall)));
+    }
    
   }, [dispatch]);
 
