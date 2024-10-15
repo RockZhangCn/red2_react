@@ -1,4 +1,5 @@
 import NavBar from '../components/Navbar/Navbar';
+import Footer from '../components/Navbar/Footer'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -86,6 +87,7 @@ function ResetPassword() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 }

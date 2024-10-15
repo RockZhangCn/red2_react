@@ -46,6 +46,7 @@ function Dashboard() {
         "Pos",
         trySeatPosRef.current
       );
+
       if (jsonMessage.Type === "BroadCast") {
         setGameHall(jsonMessage.Data);
         console.log("We received gamehall data is", jsonMessage.Data);
@@ -59,36 +60,36 @@ function Dashboard() {
 
     websocketRef.current.onclose = (event) => {
       if (event.wasClean) {
-        console.warn(`WebSocket closed cleanly with code: ${event.code}`);
+          console.warn(`WebSocket closed cleanly with code: ${event.code}`);
       } else {
-        console.log("WebSocket connection closed unexpectedly");
+          console.log("WebSocket connection closed unexpectedly");
       }
+      
       setConnected(false);
-      //attemptReconnect();
     };
 
     websocketRef.current.onerror = (error) => {
-      console.error("WebSocket error", error);
+        console.error("WebSocket error", error);
     };
   };
 
   useEffect(() => {
-    connectWebSocket();
+      connectWebSocket();
 
-    return () => {
-      if (
-        websocketRef.current &&
-        websocketRef.current.readyState === WebSocket.OPEN
-      ) {
-        console.log("We close bighall websocket in client.");
-        websocketRef.current.close(1000, "Component unmounted");
-      }
-    };
+      return () => {
+          if (
+              websocketRef.current &&
+              websocketRef.current.readyState === WebSocket.OPEN
+          ) {
+              console.log("We close bighall websocket in client.");
+              websocketRef.current.close(1000, "Component unmounted");
+          }
+      };
   }, []);
 
   useEffect(() => {
-    trySeatTableRef.current = trySeatTable; // Update the ref whenever trySeatTable changes
-    trySeatPosRef.current = trySeatPos;
+      trySeatTableRef.current = trySeatTable; // Update the ref whenever trySeatTable changes
+      trySeatPosRef.current = trySeatPos;
   }, [trySeatTable, trySeatPos]);
 
   function takeSeatCallback(tableIdx, pos) {

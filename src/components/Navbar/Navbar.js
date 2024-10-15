@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'; // {{ edit_1 }}
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './Navbar.css';
 import { userLogoutAction } from '../../actions/userActions';
 import { leaveTheSeatAction} from '../../actions/gameActions';
-import axios from 'axios'; // {{ edit_1 }}
-import { extractNumber, generateAvatarPath } from "../../utility/AvatarConvert";
+import axios from 'axios'; 
+import { generateAvatarPath } from "../../utility/AvatarConvert";
 import { HTTP_SERVER } from '../../Server/Server.js'
 
 const NavBar = ( {title}) => {
-    const [top, setTop] = useState(!window.scrollY);
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch(); // {{ edit_2 }}
-
-    useEffect(() => {
-        const scrollHandler = () => {
-            window.scrollY > 10 ? setTop(false) : setTop(true)
-        };
-        window.addEventListener('scroll', scrollHandler);
-        return () => window.removeEventListener('scroll', scrollHandler);
-    }, [top]);
+    const dispatch = useDispatch();
 
     function logout(event) {
 
@@ -44,13 +33,11 @@ const NavBar = ( {title}) => {
     return (
         <nav>
             <div className="11" >
-                Red2
+                <img src="/logo512.png" style={{height: '7vh',}}/>
             </div>
             <div className="22">
-                {/* { user.isLoggedIn ? "Welcome" : {title} } */}
                 {title}
             </div>
-
             <div className="33">
                 <img 
                     src={generateAvatarPath(user.avatar)} 
@@ -58,7 +45,7 @@ const NavBar = ( {title}) => {
                     width:'50px', height:'50px', borderRadius: '50%', }} 
                     onClick={logout}
                 ></img>
-                { user.isLoggedIn ? user.nickName : "unLogin" }
+                { user.isLoggedIn ? user.nickName : "Guest" }
             </div>
         </nav>
     )

@@ -1,4 +1,5 @@
 import NavBar from '../components/Navbar/Navbar';
+import Footer from '../components/Navbar/Footer'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Add this import
 import axios from 'axios'; // Add this import
@@ -58,9 +59,9 @@ function Register() {
         <>
             <NavBar title={"Register"} />
             <div className="container">
-                <div className="row justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+                <div className="row justify-content-center align-items-center" style={{ minHeight: '70vh' }}>
                     <div className="col-md-6">
-                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow" style={{ maxHeight: '100vh', overflowY: 'auto' }}>
+                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
                             {/* <h2 className="text-center mb-4">Register</h2> */}
                             {error && <div className="alert alert-danger">{error}</div>}
                             <div className="mb-3">
@@ -140,6 +141,7 @@ function Register() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

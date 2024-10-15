@@ -1,4 +1,5 @@
 import NavBar from '../components/Navbar/Navbar';
+import Footer from '../components/Navbar/Footer.js'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -58,12 +59,12 @@ function Home() {
     } else {
         return (
             <>
-                <NavBar title="Please Login"/>
+                <NavBar title="Please login"/>
                 <div className="container">
                     <div className="row justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
                         <div className="col-md-6">
                             <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-                                <h2 className="text-center mb-4">Please Login</h2>
+                        
                                 {loading && (
                                     <div className="progress mb-3" style={{ height: '8px' }}> 
                                         <div 
@@ -110,6 +111,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </>
         );
     }
