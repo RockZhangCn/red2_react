@@ -52,7 +52,7 @@ function GameBoard() {
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             event.preventDefault();
-            event.returnValue = '';  // 显示提示框（现代浏览器不支持自定义消息）
+            event.returnValue = '';
         };
     
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -95,7 +95,7 @@ function GameBoard() {
             const newMessage = event.data;
             const jsonMessage = JSON.parse(newMessage); // Convert string to JSON object
             if (jsonMessage.Type === "BroadCast") {
-                console.log("We received broadcast room data ", jsonMessage.Data);
+                //console.log("We received broadcast room data ", jsonMessage.Data);
                 setTableData(jsonMessage.Data);
                 
                 var mySelf = jsonMessage.Data?.Players.find(item => item.Pos === game.tablePos);
@@ -109,26 +109,21 @@ function GameBoard() {
                     return;
                 }
 
-                if (mySelf.Status === PlayerStatus.READY) {
-                    setButtonGroup({"Ready":false});
-                } 
-                
-                if (jsonMessage.Data.GameStatus === GameStatus.GRAB2) { // GameGrab2.
+                if (jsonMessage.Data.GameStatus == GameStatus.WAITING) {
+                    setButtonGroup({"Ready":mySelf.Status !== PlayerStatus.READY});
+                } else if (jsonMessage.Data.GameStatus === GameStatus.GRAB2) { // GameGrab2.
                     setButtonGroup({"Grab2s":isMyTurn, "NoGrab":isMyTurn});
-                }
-
-                if (jsonMessage.Data.GameStatus === GameStatus.YIELD2) { // GameGrab2.
+                } else if (jsonMessage.Data.GameStatus === GameStatus.YIELD2) { // GameGrab2.
                     var red2Cards = mySelf.Cards.filter(card => card === 48);
                     if (red2Cards.length === 2) {
                         setButtonGroup({"Yield2":true, "NoYield":true});
                     } else {
                         setButtonGroup({"Shot":false, "Skip":false});
                     }
-                }
-
-                if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
+                } else if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
                     setButtonGroup({"Shot":isMyTurn, "Skip":isMyTurn});
                 }
+
             } else if (jsonMessage.Type === "RETURN") {
                 navigate("/");
             }
@@ -210,11 +205,18 @@ function GameBoard() {
             var middlePattern = GetCardPattern(tableData?.CentreCards??[])
 
             console.log("Middle pattern is ${middlePattern.value}, my pattern is ${patter}");
-            if (tableData?.CentreCards.length === 0 ||pattern === CardPattern.MODE_BOMB || pattern === middlePattern) {
+            if (
+                (pattern !== CardPattern.MODE_INVALID ) && (
+                                                        tableData?.CentreCards.length === 0 ||
+                                                        pattern === CardPattern.MODE_BOMB || 
+                                                        pattern === middlePattern || 
+                                                        tableData?.CentreShotPlayerPos === message.Pos) 
+                ){
                 setSelectIndexValue([]);
                 websocketRef.current.send(JSON.stringify(message));
             } else {
                 setUserMessage("Shot againsts the rules");
+                console.error("Shot againsts the rules", message.Cards);
             }
         } else if (button === "Skip") {
             sendActionMessage("SKIP");
