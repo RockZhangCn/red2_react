@@ -122,6 +122,9 @@ function GameBoard() {
                     }
                 } else if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
                     setButtonGroup({"Shot":isMyTurn, "Skip":isMyTurn});
+                } else if (jsonMessage.Data.GameStatus === GameStatus.END) {
+                    setButtonGroup({"Ready":mySelf.Status !== PlayerStatus.READY});
+                    alert(`"You get ${mySelf.Score} points.`);
                 }
 
             } else if (jsonMessage.Type === "RETURN") {

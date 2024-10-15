@@ -14,8 +14,8 @@ function Footer () {
             flexDirection:'column',
             justifyContent: 'center'
         }}>
-            <div><a href="https://github.com/RockZhangCn">How to play</a></div>
-            <div style={{marginLeft:'80px',color:"black"}}>supported by&nbsp; <a href="mailto:rock.zhang.cn@gmail.com">rock.zhang.cn@gmail.com</a></div>
+            <div><a href="https://github.com/RockZhangCn/red2_react/blob/master/README.md">How to play</a></div>
+            <div style={{marginLeft:'80px',color:"black"}}>built by&nbsp; <a href="mailto:rock.zhang.cn@gmail.com">rock.zhang.cn@gmail.com</a></div>
         </footer>
         </>
     )
