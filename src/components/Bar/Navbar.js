@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 import './Navbar.css';
-import { userLogoutAction } from '../../actions/userActions';
-import { leaveTheSeatAction} from '../../actions/gameActions';
+import { userLogoutAction } from '../../actions/userActions.js';
+import { leaveTheSeatAction} from '../../actions/gameActions.js';
 import axios from 'axios'; 
-import { generateAvatarPath } from "../../utility/AvatarConvert";
+import { generateAvatarPath } from "../../utility/AvatarConvert.js";
 import { HTTP_SERVER } from '../../Server/Server.js'
 
 const NavBar = ( {title}) => {
@@ -33,7 +33,7 @@ const NavBar = ( {title}) => {
     return (
         <nav>
             <div className="11" >
-                <img src="/logo512.png" style={{height: '7vh',}}/>
+                <img src="/logo192.png" style={{height: '7vh',}}/>
             </div>
             <div className="22">
                 {title}
@@ -45,7 +45,9 @@ const NavBar = ( {title}) => {
                     width:'50px', height:'50px', borderRadius: '50%', }} 
                     onClick={logout}
                 ></img>
+                <span style={{marginLeft:'8px',}}>
                 { user.isLoggedIn ? user.nickName : "Guest" }
+                </span>
             </div>
         </nav>
     )

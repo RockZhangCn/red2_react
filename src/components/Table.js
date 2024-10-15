@@ -1,9 +1,8 @@
 import SeatedUser from "../components/SeatedUser";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react"; // Add useState import
+import React from "react"; // Add useState import
 import "./TableCss.css"
 import { selectAPosAction } from "../actions/gameActions";
-import { useNavigate } from "react-router-dom";
 
 
 function Table({ tableIdx, users, takeSeatCallback }) {

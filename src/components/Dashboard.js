@@ -112,7 +112,7 @@ function Dashboard() {
     <div
       style={{
         display: "flex",
-        backgroundColor: "gray",
+        backgroundColor: "#CCC",
         padding: "20px",
         flexWrap: "wrap",
         justifyContent: "flex-start",

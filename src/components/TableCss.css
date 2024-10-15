@@ -6,32 +6,29 @@
     grid-template-rows: repeat(3, 1fr);    /* 创建 3 行 */
     width: 20vw; /* 容器的宽度 */
     height: 20vw; /* 容器的高度 */
-  }
+}
   
-  .grid-item {
+.grid-item {
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-  }
+}
   
-  .small {
+.small {
     background-color: lightgray; /* 其他小单元的背景色 */
     margin: 20%;
-    
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4); /* 减少阴影 */
-  }
+}
   
-  .large {
+.large {
     background-color: lightblue; /* 中间单元的背景色 */
     border-radius: 20%;
-    /* grid-row: span 2; 中间单元占用 2 行 */
-    /* grid-column: span 2; 中间单元占用 2 列 */
-  }
+}
   
-  .hidden {
+.hidden {
     visibility: hidden; /* 隐藏四个角的单元 */
-  }
+}
   
 .clicked {
     /* transform: scale(0.85); 

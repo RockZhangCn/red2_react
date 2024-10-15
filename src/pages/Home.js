@@ -1,5 +1,5 @@
-import NavBar from '../components/Navbar/Navbar';
-import Footer from '../components/Navbar/Footer.js'
+import NavBar from '../components/Bar/Navbar.js';
+import Footer from '../components/Bar/Footer.js'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
