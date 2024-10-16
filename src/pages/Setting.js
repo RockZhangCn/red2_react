@@ -1,5 +1,6 @@
 
 import NavBar from '../components/Bar/Navbar';
+import Footer from '../components/Bar/Footer';
 import { useEffect, useState } from 'react';
 import { HTTP_SERVER } from "../Server/Server.js"
 import axios from 'axios';
@@ -48,6 +49,11 @@ function Setting() {
             if (response.data.success) {
                 dispatch(leaveTheSeatAction());
                 dispatch(userLogoutAction(user));
+
+                const timer = setTimeout(() => {
+                    navigate("/");
+                }, 3000);
+
             } else {
                 navigate("/");
             }
@@ -76,6 +82,7 @@ function Setting() {
                     </button>
                 </div>
             </div>
+            <Footer/>
         </>
         );
     } else {
@@ -90,7 +97,7 @@ function Setting() {
                     <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
                 </div>
 
-
+                <Footer/>
             </>
             );
     }

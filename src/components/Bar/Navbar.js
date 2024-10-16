@@ -20,21 +20,23 @@ const NavBar = ( {title}) => {
             <div className="22">
                 {title}
             </div>
-            <div className="33">
+            <div className="33" style={{height:'100%'}}>
                 <span style={{marginRight:'18px', border:'solid 1px white', display: user.isLoggedIn ? "inline" : "none", padding:'3px', fontSize:'1rem'}} onClick={ showScoreBoard}>
                 Score Range
                 </span>
 
-                <img 
-                    src={generateAvatarPath(user.avatar)} 
-                    style={{ display: user.isLoggedIn ? "inline" : "none", 
-                    width:'50px', height:'50px', borderRadius: '50%', }} 
-                    onClick={()=> {navigate("/setting")}}
-                ></img>
+                <div style={{height:'100%',display:'inline',}} onClick={()=> {navigate("/setting")}}>
+                    <img 
+                        src={generateAvatarPath(user.avatar)} 
+                        style={{ display: user.isLoggedIn ? "inline" : "none", 
+                        width:'50px', height:'50px', borderRadius: '50%', }} 
+                
+                    ></img>
+                    <span style={{marginLeft:'8px',}}>
+                    { user.isLoggedIn ? user.nickName : "Guest" }
+                    </span>
 
-                <span style={{marginLeft:'8px',}} onClick={ ()=> {navigate("/setting")}}>
-                { user.isLoggedIn ? user.nickName : "Guest" }
-                </span>
+                </div>
             </div>
         </nav>
     )

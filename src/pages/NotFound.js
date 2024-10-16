@@ -1,7 +1,7 @@
 import NavBar from '../components/Bar/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import Footer from '../components/Bar/Footer';
 function NotFound() {
     const navigate = useNavigate();
     useEffect(() => { 
@@ -21,6 +21,7 @@ function NotFound() {
                 <div>3 seconds will navigate to login page.</div>
                 <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
             </div>
+            <Footer/>
         </>
         );
 }

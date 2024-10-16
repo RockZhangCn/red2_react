@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { HTTP_SERVER } from "../Server/Server.js"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import Footer from '../components/Bar/Footer';
 function Score() {
 
     const user = useSelector(state => state.user);
@@ -58,9 +58,7 @@ function Score() {
                     
                 </tbody>
             </table>
-            <div style={{margin:'auto', textAlign:'center'}}> 
-            {/* ... existing code ... */}
-            </div>
+            <Footer/>
         </>
         );
     } else {
@@ -74,6 +72,7 @@ function Score() {
                     <div>3 seconds will navigate to login page.</div>
                     <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
                 </div>
+                <Footer/>
             </>
             );
     }
