@@ -11,18 +11,24 @@ function Score() {
     const [scoreData, setScoreData] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        
-        axios.get(HTTP_SERVER+'/scores', { withCredentials: true}
-        ) // Send user data in the request body
-        .then(response => {
-            console.log("User score board received data", response.data);
-            if (response.data.success) {
-                setScoreData(response.data.data);
-            }
-        })
-        .catch(error => {
-            console.error("View score board failed:", error);
-        });
+        if (user.isLoggedIn) { 
+            axios.get(HTTP_SERVER+'/scores', { withCredentials: true}
+            ) // Send user data in the request body
+            .then(response => {
+                console.log("User score board received data", response.data);
+                if (response.data.success) {
+                    setScoreData(response.data.data);
+                }
+            })
+            .catch(error => {
+                console.error("View score board failed:", error);
+            });
+        } else {
+            const timer = setTimeout(() => {
+                navigate("/");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
         
     }, []);
 
@@ -63,8 +69,9 @@ function Score() {
                 <NavBar title="Welcome"/>
                 <div id='settinglist' style={{border:'solid 1px black', backgroundColor: "#EEE", width:'50%', 
                     padding:'10px', marginTop:'30px', marginLeft:'auto', marginRight:'auto'}}>
-                    
+
                     <div>Denied, unauthorized access.</div>
+                    <div>3 seconds will navigate to login page.</div>
                     <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
                 </div>
             </>

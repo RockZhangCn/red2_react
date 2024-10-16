@@ -21,8 +21,8 @@ const NavBar = ( {title}) => {
                 {title}
             </div>
             <div className="33">
-                <span style={{marginRight:'18px', border:'solid 1px white', padding:'3px', fontSize:'1rem'}} onClick={ showScoreBoard}>
-                { user.isLoggedIn ? "Score Range" : "" }
+                <span style={{marginRight:'18px', border:'solid 1px white', display: user.isLoggedIn ? "inline" : "none", padding:'3px', fontSize:'1rem'}} onClick={ showScoreBoard}>
+                Score Range
                 </span>
 
                 <img 

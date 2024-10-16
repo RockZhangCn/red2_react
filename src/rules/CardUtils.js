@@ -39,7 +39,7 @@ function GetCardPattern(cards) {
         return CardPattern.MODE_SINGLE;
     } else if (cnt === 2 && valueSetLen === 1) {
         if (JSON.stringify(cards) === JSON.stringify([48, 48])) {
-            return CardPattern.MODE_TWO_RED2;
+            return CardPattern.MODE_BOMB;
         } else {
             return CardPattern.MODE_PAIR;
         }

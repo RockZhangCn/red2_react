@@ -15,19 +15,24 @@ function Setting() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        
-        axios.get(HTTP_SERVER+'/profile', { withCredentials: true}
-        ) // Send user data in the request body
-        .then(response => {
-            console.log("User profile received data", response.data);
-            if (response.data.success) {
-                setProfileData(response.data.data);
-            }
-        })
-        .catch(error => {
-            console.error("View user profile failed:", error);
-        });
-        
+        if (user.isLoggedIn) { 
+            axios.get(HTTP_SERVER+'/profile', { withCredentials: true}
+            ) // Send user data in the request body
+            .then(response => {
+                console.log("User profile received data", response.data);
+                if (response.data.success) {
+                    setProfileData(response.data.data);
+                }
+            })
+            .catch(error => {
+                console.error("View user profile failed:", error);
+            });
+        } else {
+            const timer = setTimeout(() => {
+                navigate("/");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
     }, []);
 
     const handleLogout = () => {
@@ -81,8 +86,11 @@ function Setting() {
                     padding:'10px', marginTop:'30px', marginLeft:'auto', marginRight:'auto'}}>
                     
                     <div>Denied, unauthorized access.</div>
+                    <div>3 seconds will navigate to login page.</div>
                     <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
                 </div>
+
+
             </>
             );
     }
