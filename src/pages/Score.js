@@ -58,7 +58,17 @@ function Score() {
         </>
         );
     } else {
-        navigate("/");
+        return (
+            <>
+                <NavBar title="Welcome"/>
+                <div id='settinglist' style={{border:'solid 1px black', backgroundColor: "#EEE", width:'50%', 
+                    padding:'10px', marginTop:'30px', marginLeft:'auto', marginRight:'auto'}}>
+                    
+                    <div>Denied, unauthorized access.</div>
+                    <a href="/" onClick={ ()=> navigate("/")}> Go to login </a>
+                </div>
+            </>
+            );
     }
 }
 
