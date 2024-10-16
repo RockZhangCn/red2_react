@@ -20,6 +20,8 @@ Note: Singles, pairs, three with one, three with two, consecutive pairs, and str
 
 ## Implement
 ### Frontend(React, this repo)
-### Backend(ASP.NET Core)
-  [Red2API]("https://github.com/RockZhangCn/Red2WebAPI")
+### Backend(ASP.NET Core [Red2API](https://github.com/RockZhangCn/Red2WebAPI))
+
+## Deploy
+### Ubuntu Apache, demo link [https://red2.fun](https://red2.fun)
   
