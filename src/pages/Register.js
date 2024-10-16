@@ -44,6 +44,7 @@ function Register() {
             });
             console.log('Registration successful, client received', response.data);
             if (response.data.success) {
+                alert("Register successed, redirect to login.");
                 navigate('/'); // Redirect to home page on success
             } else {
                 setError(response.data.message);

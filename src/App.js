@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Table from './components/Table.js';
 import Setting from './pages/Setting';
+import Score from './pages/Score'
 import ResetPassword from './pages/ResetPassword.js';
 import NotFound from './pages/NotFound.js';
 import GameBoard from './pages/GameBoard.js';
@@ -41,6 +42,7 @@ function App() {
       <Route path="/resetpassword" element={<ResetPassword/>} />
       <Route path="/playing/:tableId" element={<GameBoard />} />
       <Route path="/setting" element={<Setting />} />
+      <Route path="/scores" element={<Score />} />
       
       {/* Default route */}
       <Route path="*" element={<Navigate to="/not-found" />} />

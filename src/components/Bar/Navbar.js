@@ -1,33 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './Navbar.css';
-import { userLogoutAction } from '../../actions/userActions.js';
-import { leaveTheSeatAction} from '../../actions/gameActions.js';
-import axios from 'axios'; 
+
+import { useNavigate } from "react-router-dom";
 import { generateAvatarPath } from "../../utility/AvatarConvert.js";
-import { HTTP_SERVER } from '../../Server/Server.js'
+
 
 const NavBar = ( {title}) => {
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
-
-    function logout(event) {
-
-        var logOutData = { email: user.userEmail, nickname: user.nickName, avatar:user.avatar,};
-        console.log("User logout with data ", logOutData);
-        // Send POST request to /logout using Axios
-        axios.post(HTTP_SERVER+'/logout', logOutData
-            , { withCredentials: true}
-        ) // Send user data in the request body
-        .then(response => {
-            console.log("User logout with received data", response.data);
-            if (response.data.success) {
-                dispatch(leaveTheSeatAction());
-                dispatch(userLogoutAction(user));
-            }
-        })
-        .catch(error => {
-            console.error("Logout failed:", error);
-        });
+    const navigate = useNavigate();
+    function showScoreBoard() {
+        navigate("/scores");
     }
 
     return (
@@ -39,13 +21,18 @@ const NavBar = ( {title}) => {
                 {title}
             </div>
             <div className="33">
+                <span style={{marginRight:'18px', fontSize:'1rem'}} onClick={ showScoreBoard}>
+                { user.isLoggedIn ? "Score Range" : "" }
+                </span>
+
                 <img 
                     src={generateAvatarPath(user.avatar)} 
                     style={{ display: user.isLoggedIn ? "inline" : "none", 
                     width:'50px', height:'50px', borderRadius: '50%', }} 
-                    onClick={logout}
+                    onClick={()=> {navigate("/setting")}}
                 ></img>
-                <span style={{marginLeft:'8px',}}>
+
+                <span style={{marginLeft:'8px',}} onClick={ ()=> {navigate("/setting")}}>
                 { user.isLoggedIn ? user.nickName : "Guest" }
                 </span>
             </div>

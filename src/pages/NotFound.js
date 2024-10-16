@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import NavBar from '../components/Bar/Navbar';
 
-function NotFound(width, height) {
+function NotFound() {
 
     const user = useSelector(state => state.user);
 
