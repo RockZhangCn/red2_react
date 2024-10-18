@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import NavBar from '../components/Bar/Navbar';
 import { useEffect, useState } from 'react';
-import { HTTP_SERVER } from "../Server/Server.js"
+import { HTTP_SERVER } from "../server/Server.js"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Bar/Footer';

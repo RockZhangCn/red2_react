@@ -2,7 +2,7 @@
 import NavBar from '../components/Bar/Navbar';
 import Footer from '../components/Bar/Footer';
 import { useEffect, useState } from 'react';
-import { HTTP_SERVER } from "../Server/Server.js"
+import { HTTP_SERVER } from "../server/Server.js"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { userLogoutAction } from '../actions/userActions.js';

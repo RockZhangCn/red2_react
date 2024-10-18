@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import CardBox from "../components/CardBox.js"
 import CommandBoard from "../components/CommandBoard.js";
 import { leaveTheSeatAction } from "../actions/gameActions.js"
-import { WS_SERVER } from "../Server/Server.js"
+import { WS_SERVER } from "../server/Server.js"
 import GameStatus from "../constants/GameStatus.js";
 import PlayerStatus from "../constants/PlayerStatus.js";
 import {CardPattern, GetCardPattern} from "../rules/CardUtils.js"
@@ -118,10 +118,10 @@ function GameBoard() {
                     if (red2Cards.length === 2) {
                         setButtonGroup({"Yield2":true, "NoYield":true});
                     } else {
-                        setButtonGroup({"Shot":false, "Skip":false});
+                        setButtonGroup({"Play":false, "Skip":false});
                     }
                 } else if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
-                    setButtonGroup({"Shot":isMyTurn, "Skip":isMyTurn});
+                    setButtonGroup({"Play":isMyTurn, "Skip":isMyTurn});
                 } else if (jsonMessage.Data.GameStatus === GameStatus.END) {
                     setButtonGroup({"Ready":mySelf.Status !== PlayerStatus.READY});
                     alert(`"You get ${mySelf.Score} points.`);
@@ -194,7 +194,7 @@ function GameBoard() {
             sendActionMessage("YIELD2");
         } else if (button === "NoYield") {
             sendActionMessage("NOYIELD");
-        } else if (button === "Shot") {
+        } else if (button === "Play") {
             const message = {
                 Action: "SHOT",
                 Avatar: user.avatar,
@@ -218,8 +218,8 @@ function GameBoard() {
                 setSelectIndexValue([]);
                 websocketRef.current.send(JSON.stringify(message));
             } else {
-                setUserMessage("Shot againsts the rules");
-                console.error("Shot againsts the rules", message.Cards);
+                setUserMessage("Play againsts the rules");
+                console.error("Play againsts the rules", message.Cards);
             }
         } else if (button === "Skip") {
             sendActionMessage("SKIP");

@@ -3,7 +3,7 @@ import Footer from '../components/Bar/Footer.js'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Add this import
 import axios from 'axios'; // Add this import
-import {HTTP_SERVER} from '../Server/Server.js'
+import {HTTP_SERVER} from '../server/Server.js'
 
 function Register() {
     const navigate = useNavigate(); // Initialize useNavigate

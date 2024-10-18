@@ -7,7 +7,7 @@ import axios from 'axios'; // Import Axios
 
 import { userLoginAction } from '../actions/userActions';
 import Dashboard from '../components/Dashboard.js'; // Import the Dashboard component
-import { HTTP_SERVER } from '../Server/Server.js'
+import { HTTP_SERVER } from '../server/Server.js'
 
 function Home() {
     const dispatch = useDispatch();

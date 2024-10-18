@@ -3,7 +3,7 @@ import Table from "./Table";
 import React, { useRef, useEffect, useState } from "react";
 import { gameHallRTDataAction , gameHallSeatPosAction} from "../actions/gameActions";
 import { useNavigate } from "react-router-dom";
-import { WS_SERVER} from "../Server/Server.js"
+import { WS_SERVER} from "../server/Server.js"
 
 
 function Dashboard() {

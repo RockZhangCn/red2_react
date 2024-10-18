@@ -15,7 +15,7 @@ const NavBar = ( {title}) => {
     return (
         <nav>
             <div className="11" >
-                <img src="/logo192.png" style={{height: '7vh',}}/>
+                <img src="/logo192.png" style={{height: '7vh',}} onClick={ ()=> {navigate("/scores");}}/>
             </div>
             <div className="22">
                 {title}
