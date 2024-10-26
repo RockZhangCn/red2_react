@@ -1,79 +1,79 @@
-
 /* src/pages/GameBoard.css */
 
-html, body {
-    height: 100%; /* 设置 html 和 body 元素占据整个视口高度 */
-    margin: 0;
-    overflow: hidden; /* 禁用整个页面的滚动 */
-  }
+html,
+body {
+  height: 100%; /* 设置 html 和 body 元素占据整个视口高度 */
+  margin: 0;
+  overflow: hidden; /* 禁用整个页面的滚动 */
+}
 
 .gameboard {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
 }
 
 /* Big middle. */
 .middle {
-    flex: 2;
-    flex-grow: 2;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: '50%';
-    min-width: '50%';
-    max-width: '50%';
+  flex: 2;
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: "50%";
+  min-width: "50%";
+  max-width: "50%";
 }
 
 .top {
-    display: flex;
-    flex-direction: column;
-    flex: 3;
-    justify-content: center;
-    background-color: #eaf7f3;
-    max-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  justify-content: center;
+  background-color: #eaf7f3;
+  max-height: 30vh;
 }
 
 .center {
-    display: flex;
-    flex: 3;
-    justify-content: center;
-    align-items: center;
-    background-color: #d0d0d0;
-    max-height: 30vh;
+  display: flex;
+  flex: 3;
+  justify-content: center;
+  align-items: center;
+  background-color: #d0d0d0;
+  max-height: 30vh;
 }
 
 .bottom {
-    display: flex;
-    flex-direction: column;
-    flex: 4;
-    justify-content: flex-start;
-    background-color: #c0c0c0;
-    max-height: 40vh; 
+  display: flex;
+  flex-direction: column;
+  flex: 4;
+  justify-content: flex-start;
+  background-color: #c0c0c0;
+  max-height: 40vh;
 }
 
 .left {
-    padding: 2vh;
-    flex: 1;
-    flex-grow:1;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #f0f0f0;
+  padding: 2vh;
+  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f0f0f0;
 }
 
 .right {
-    padding: 2vh;
-    flex: 1;
-    flex-grow:1;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #f0f0f0;
+  padding: 2vh;
+  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f0f0f0;
 }

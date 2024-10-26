@@ -1,11 +1,11 @@
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to right, #eb4921, #f48d80);
-    color: white;
-    padding: 5px;
-    height: 8vh;
-    font-size: x-large;
-    font-weight: bold; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #eb4921, #f48d80);
+  color: white;
+  padding: 5px;
+  height: 8vh;
+  font-size: x-large;
+  font-weight: bold;
 }
