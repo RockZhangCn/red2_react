@@ -18,27 +18,48 @@ const NavBar = ({ title }) => {
           src="/logo192.png"
           style={{ height: "7vh" }}
           onClick={() => {
-            navigate("/scores");
+            navigate("/");
           }}
         />
       </div>
       <div className="22">{title}</div>
-      <div className="33" style={{ height: "100%" }}>
-        <span
+      <div className="33" style={{ height: "100%", display: "flex" }}>
+        <div
           style={{
-            marginRight: "18px",
-            border: "solid 1px white",
-            display: user.isLoggedIn ? "inline" : "none",
-            padding: "3px",
-            fontSize: "1rem",
+            height: "100%",
+            textAlign: "center",
+            lineHeight: "100%",
+
+            display: "flex",
           }}
-          onClick={showScoreBoard}
         >
-          Score Range
-        </span>
+          <span
+            style={{
+              marginRight: "18px",
+              border: "solid 1px white",
+              display: user.isLoggedIn ? "inline-flex" : "none",
+              padding: "3px",
+              fontSize: "1rem",
+              marginTop: "auto",
+              marginBottom: "auto",
+              height: "70%",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+            onClick={showScoreBoard}
+          >
+            Score Range
+          </span>
+        </div>
 
         <div
-          style={{ height: "100%", display: "inline" }}
+          style={{
+            height: "100%",
+            display: "flex",
+            textAlign: "center",
+            lineHeight: "100%",
+          }}
           onClick={() => {
             navigate("/setting");
           }}
@@ -49,10 +70,19 @@ const NavBar = ({ title }) => {
               display: user.isLoggedIn ? "inline" : "none",
               width: "50px",
               height: "50px",
+              marginTop: "auto",
+              marginBottom: "auto",
               borderRadius: "50%",
             }}
           ></img>
-          <span style={{ marginLeft: "8px" }}>
+
+          <span
+            style={{
+              marginLeft: "8px",
+              marginTop: "auto",
+              marginBottom: "auto",
+            }}
+          >
             {user.isLoggedIn ? user.nickName : "Guest"}
           </span>
         </div>

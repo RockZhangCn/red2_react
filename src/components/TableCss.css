@@ -6,6 +6,9 @@
   grid-template-rows: repeat(3, 1fr); /* 创建 3 行 */
   width: 20vw; /* 容器的宽度 */
   height: 20vw; /* 容器的高度 */
+
+  min-width: 200px; /* 设置最小宽度，确保容器不能小于这个尺寸 */
+  min-height: 200px; /* 设置最小高度 */
 }
 
 .grid-item {
@@ -13,6 +16,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 }
 
 .small {

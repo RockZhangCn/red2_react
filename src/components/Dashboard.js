@@ -21,17 +21,14 @@ function Dashboard() {
   const trySeatTableRef = useRef(trySeatTable); // Create a ref to hold the current value
   const trySeatPosRef = useRef(trySeatPos);
 
-  const [connected, setConnected] = useState(false);
   const websocketRef = useRef(null);
   const reconnectInterval = useRef(1000); // Start with 1 second
-  const maxReconnectInterval = 30000; // Maximum of 30 seconds
 
   const connectWebSocket = () => {
     console.log("We are connectWebSocket.");
     websocketRef.current = new WebSocket(WS_SERVER + "/ws_hall");
 
     websocketRef.current.onopen = () => {
-      setConnected(true);
       console.log("Connected to WebSocket");
       reconnectInterval.current = 1000; // Reset interval after successful connection
     };
@@ -46,7 +43,7 @@ function Dashboard() {
         "table",
         trySeatTableRef.current,
         "Pos",
-        trySeatPosRef.current,
+        trySeatPosRef.current
       );
 
       if (jsonMessage.Type === "BroadCast") {
@@ -58,13 +55,13 @@ function Dashboard() {
           "BBBB we set table",
           trySeatTableRef.current,
           "Pos",
-          trySeatPosRef.current,
+          trySeatPosRef.current
         );
         dispatch(
           gameHallSeatPosAction({
             table: trySeatTableRef.current,
             pos: trySeatPosRef.current,
-          }),
+          })
         );
         navigate("/playing/" + trySeatTableRef.current);
       }
@@ -76,8 +73,6 @@ function Dashboard() {
       } else {
         console.log("WebSocket connection closed unexpectedly");
       }
-
-      setConnected(false);
     };
 
     websocketRef.current.onerror = (error) => {
