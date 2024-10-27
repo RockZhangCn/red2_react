@@ -35,7 +35,7 @@ function GameBoard() {
     "tableId",
     tableId,
     "Pos",
-    game.tablePos,
+    game.tablePos
   );
   temporaryUser.current = user;
   temporaryGame.current = game;
@@ -50,13 +50,13 @@ function GameBoard() {
   // console.log("We seat", game.tablePos, "left is", leftPlayerPos, "right is", rightPlayerPos, "top is", topPlayerPos, "table Data is", tableData);
 
   const leftUser = tableData?.Players.find(
-    (item) => item.Pos === leftPlayerPos,
+    (item) => item.Pos === leftPlayerPos
   );
   const bottomUser = tableData?.Players.find(
-    (item) => item.Pos === game.tablePos,
+    (item) => item.Pos === game.tablePos
   );
   const rightUser = tableData?.Players.find(
-    (item) => item.Pos === rightPlayerPos,
+    (item) => item.Pos === rightPlayerPos
   );
   const topUser = tableData?.Players.find((item) => item.Pos === topPlayerPos);
 
@@ -93,7 +93,7 @@ function GameBoard() {
     websocketRef.current.onopen = () => {
       console.log(
         "Connected to WebSocket, start the PING set",
-        temporaryUser.current,
+        temporaryUser.current
       );
       const message = {
         Action: "IAMIN",
@@ -114,7 +114,7 @@ function GameBoard() {
         setTableData(jsonMessage.Data);
 
         var mySelf = jsonMessage.Data?.Players.find(
-          (item) => item.Pos === game.tablePos,
+          (item) => item.Pos === game.tablePos
         );
         setUserMessage(mySelf.Message);
         setAcitvePos(jsonMessage.Data?.ActivePos);
@@ -228,7 +228,7 @@ function GameBoard() {
       var middlePattern = GetCardPattern(tableData?.CentreCards ?? []);
 
       console.log(
-        "Middle pattern is ${middlePattern.value}, my pattern is ${patter}",
+        "Middle pattern is ${middlePattern.value}, my pattern is ${patter}"
       );
       if (
         pattern !== CardPattern.MODE_INVALID &&
@@ -253,11 +253,11 @@ function GameBoard() {
     setSelectIndexValue((prevSelectedSet) => {
       if (
         prevSelectedSet.some(
-          (obj) => obj.key === index && obj.value === cardValue,
+          (obj) => obj.key === index && obj.value === cardValue
         )
       ) {
         const newSet = prevSelectedSet.filter(
-          (obj) => !(obj.key === index && obj.value === cardValue),
+          (obj) => !(obj.key === index && obj.value === cardValue)
         );
         console.log("we get newSet remove is", newSet);
 
