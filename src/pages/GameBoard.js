@@ -126,7 +126,7 @@ function GameBoard() {
           return;
         }
 
-        if (jsonMessage.Data.GameStatus == GameStatus.WAITING) {
+        if (jsonMessage.Data.GameStatus === GameStatus.WAITING) {
           setButtonGroup({ Ready: mySelf.Status !== PlayerStatus.READY });
         } else if (jsonMessage.Data.GameStatus === GameStatus.GRAB2) {
           // GameGrab2.
@@ -137,10 +137,10 @@ function GameBoard() {
           if (red2Cards.length === 2) {
             setButtonGroup({ Yield2: true, NoYield: true });
           } else {
-            setButtonGroup({ Play: false, Skip: false });
+            setButtonGroup({ Skip: false, Play: false });
           }
         } else if (jsonMessage.Data.GameStatus === GameStatus.INPROGRESS) {
-          setButtonGroup({ Play: isMyTurn, Skip: isMyTurn });
+          setButtonGroup({ Skip: isMyTurn, Play: isMyTurn });
         } else if (jsonMessage.Data.GameStatus === GameStatus.END) {
           setButtonGroup({ Ready: mySelf.Status !== PlayerStatus.READY });
           alert(`"You get ${mySelf.Score} points.`);
@@ -228,7 +228,7 @@ function GameBoard() {
       var middlePattern = GetCardPattern(tableData?.CentreCards ?? []);
 
       console.log(
-        "Middle pattern is ${middlePattern.value}, my pattern is ${patter}"
+        `Middle pattern is ${middlePattern.value}, my pattern is ${pattern}`
       );
       if (
         pattern !== CardPattern.MODE_INVALID &&

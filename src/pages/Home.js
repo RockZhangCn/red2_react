@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios"; // Import Axios
+// const axios = require("axios");
 
 import { userLoginAction } from "../actions/userActions";
 import Dashboard from "../components/Dashboard.js"; // Import the Dashboard component
@@ -31,7 +32,7 @@ function Home() {
           email,
           password,
         },
-        { withCredentials: true },
+        { withCredentials: true }
       ); // Send POST request with email and password
 
       console.log("We begin to dispatch event email ", email);
@@ -43,7 +44,7 @@ function Home() {
             useremail: response.data.email, // Adjust based on your API response
             nickname: response.data.nickname, // Adjust based on your API response
             avatar: response.data.avatar, // Adjust based on your API response
-          }),
+          })
         );
       } else {
         setError(response.data.message);
