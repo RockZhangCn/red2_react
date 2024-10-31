@@ -131,8 +131,10 @@ function GameBoard() {
         } else if (jsonMessage.Data.GameStatus === GameStatus.GRAB2) {
           // GameGrab2.
           setButtonGroup({ Grab2s: isMyTurn, NoGrab: isMyTurn });
+          //clear all selection.
+          setSelectIndexValue([]);
         } else if (jsonMessage.Data.GameStatus === GameStatus.YIELD2) {
-          // GameGrab2.
+          // GameYield2.
           var red2Cards = mySelf.Cards.filter((card) => card === 48);
           if (red2Cards.length === 2) {
             setButtonGroup({ Yield2: true, NoYield: true });
